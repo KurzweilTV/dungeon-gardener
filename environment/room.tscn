@@ -122,15 +122,15 @@ script = ExtResource("2_odrw7")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.003021, -0.0906978)
 shape = SubResource("BoxShape3D_aqwxi")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.430305, 1.33033, 1.50734)
+[node name="BounceLight1" type="OmniLight3D" parent="LightShaft"]
+transform = Transform3D(1, 0, 0, 0, 0.959874, 0.280432, 0, -0.280432, 0.959874, 0.019832, 1.81588, 3.4421)
 light_color = Color(0.8024, 0.445778, 1.15514e-06, 1)
 light_bake_mode = 1
 distance_fade_enabled = true
 omni_attenuation = 2.0
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.430305, 1.33033, -4.06831)
+[node name="BounceLight2" type="OmniLight3D" parent="LightShaft"]
+transform = Transform3D(1, 0, 0, 0, 0.959874, 0.280432, 0, -0.280432, 0.959874, 0.019832, 0.252294, -1.90982)
 light_color = Color(0.8024, 0.445778, 1.15514e-06, 1)
 light_bake_mode = 1
 distance_fade_enabled = true

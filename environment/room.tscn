@@ -100,16 +100,6 @@ transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -
 use_collision = true
 size = Vector3(0.187138, 0.328198, 1.9982)
 
-[node name="CornerDetail1" type="CSGBox3D" parent="Walls"]
-transform = Transform3D(1, 0, 0, 0, 0.563339, 0.826226, 0, -0.826226, 0.563339, 0, 0.0675976, -4.82369)
-calculate_tangents = false
-size = Vector3(7.24585, 0.11084, 0.001)
-
-[node name="CornerDetail2" type="CSGBox3D" parent="Walls"]
-transform = Transform3D(1, 0, 0, 0, 0.65227, -0.757986, 0, 0.757986, 0.65227, 0, 1.87628, -4.8025)
-calculate_tangents = false
-size = Vector3(7.24585, 0.11084, 0.001)
-
 [node name="LightShaft" type="FogVolume" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.959874, -0.280432, 0, 0.280432, 0.959874, 0.410473, 0.552584, -2.30587)
 size = Vector3(1.9129, 0.7603, 5.48573)
@@ -137,7 +127,7 @@ distance_fade_enabled = true
 omni_attenuation = 2.0
 
 [node name="Player" parent="." instance=ExtResource("1_aqwxi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.447238, -0.0633421, 2.83721)
+transform = Transform3D(0.838642, 0, 0.544683, 0, 1, 0, -0.544683, 0, 0.838642, 2.61534, -0.0633421, 2.83721)
 can_sprint = true
 look_speed = 0.001
 base_speed = 1.0

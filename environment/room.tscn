@@ -1,0 +1,152 @@
+[gd_scene load_steps=10 format=3 uid="uid://bmm722h35elbx"]
+
+[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="1_aqwxi"]
+[ext_resource type="Material" uid="uid://d2ms68knptoyb" path="res://environment/art/stone.tres" id="1_qvg63"]
+[ext_resource type="Script" uid="uid://imc1ihvfjqv7" path="res://environment/code/light_shaft.gd" id="2_odrw7"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_odrw7"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0.485083, 0.260444, 3.85046e-07, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_qvg63"]
+sky_material = SubResource("ProceduralSkyMaterial_odrw7")
+
+[sub_resource type="Environment" id="Environment_oggar"]
+background_mode = 2
+sky = SubResource("Sky_qvg63")
+reflected_light_source = 1
+tonemap_mode = 4
+fog_light_color = Color(0, 0, 0, 1)
+fog_light_energy = 4.4
+fog_sun_scatter = 1.0
+fog_density = 0.1555
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+volumetric_fog_albedo = Color(0, 0, 0, 1)
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_aqwxi"]
+
+[sub_resource type="FogMaterial" id="FogMaterial_odrw7"]
+density = 0.5
+albedo = Color(1, 1, 0.458824, 1)
+emission = Color(0.87659, 0.48911, 2.88785e-06, 1)
+density_texture = SubResource("NoiseTexture3D_aqwxi")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_aqwxi"]
+size = Vector3(1.8125, 0.727722, 6.12036)
+
+[node name="Room" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_oggar")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-1, 2.5268e-08, -8.36915e-08, 0, 0.957319, 0.289032, 8.74228e-08, 0.289032, -0.957319, 0, 0, 0)
+light_color = Color(0.963513, 0.539879, 0, 1)
+light_energy = 16.0
+light_bake_mode = 1
+shadow_enabled = true
+shadow_blur = 1.811
+directional_shadow_blend_splits = true
+
+[node name="Walls" type="CSGCombiner3D" parent="."]
+material_override = ExtResource("1_qvg63")
+use_collision = true
+
+[node name="Floor" type="CSGBox3D" parent="Walls"]
+use_collision = true
+size = Vector3(10, 0.1, 10)
+
+[node name="Cieling" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.135025, 2.15631, 0)
+use_collision = true
+size = Vector3(10.8746, 0.530475, 10)
+metadata/_edit_lock_ = true
+
+[node name="Wall1" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -3.90093, 1.00156, -0.00510597)
+use_collision = true
+size = Vector3(2.10065, 2.18379, 10)
+
+[node name="Wall2" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 4.21432, 1.00156, -0.00686359)
+use_collision = true
+size = Vector3(2.10065, 1.55173, 10)
+
+[node name="Wall3" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, 0, 0.00367069, 0.993984, 4.43238)
+use_collision = true
+size = Vector3(2.10065, 1.14326, 10)
+
+[node name="Piece1" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, 0, -3.06804, 0.993984, -5.04523)
+use_collision = true
+size = Vector3(2.10065, 0.331738, 5.02393)
+
+[node name="Piece2" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, 0, 3.1481, 0.993984, -5.04297)
+use_collision = true
+size = Vector3(2.10065, 0.327222, 3.60962)
+
+[node name="Piece3" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, 0, 0.38921, 0.52913, -5.0395)
+use_collision = true
+size = Vector3(1.1507, 0.32002, 1.91629)
+
+[node name="Piece4" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, 0, 0.399758, 1.8508, -5.04346)
+use_collision = true
+size = Vector3(0.187138, 0.328198, 1.9982)
+
+[node name="CornerDetail1" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 0.563339, 0.826226, 0, -0.826226, 0.563339, 0, 0.0675976, -4.82369)
+calculate_tangents = false
+size = Vector3(7.24585, 0.11084, 0.001)
+
+[node name="CornerDetail2" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 0.65227, -0.757986, 0, 0.757986, 0.65227, 0, 1.87628, -4.8025)
+calculate_tangents = false
+size = Vector3(7.24585, 0.11084, 0.001)
+
+[node name="LightShaft" type="FogVolume" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.959874, -0.280432, 0, 0.280432, 0.959874, 0.410473, 0.552584, -2.30587)
+size = Vector3(1.9129, 0.7603, 5.48573)
+material = SubResource("FogMaterial_odrw7")
+script = ExtResource("2_odrw7")
+
+[node name="Area3D" type="Area3D" parent="LightShaft"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LightShaft/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.003021, -0.0906978)
+shape = SubResource("BoxShape3D_aqwxi")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.430305, 1.33033, 1.50734)
+light_color = Color(0.8024, 0.445778, 1.15514e-06, 1)
+light_bake_mode = 1
+distance_fade_enabled = true
+omni_attenuation = 2.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.430305, 1.33033, -4.06831)
+light_color = Color(0.8024, 0.445778, 1.15514e-06, 1)
+light_bake_mode = 1
+distance_fade_enabled = true
+omni_attenuation = 2.0
+
+[node name="Player" parent="." instance=ExtResource("1_aqwxi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.447238, -0.0633421, 2.83721)
+can_sprint = true
+look_speed = 0.001
+base_speed = 1.0
+jump_velocity = 2.0
+sprint_speed = 2.0
+input_left = "walk_left"
+input_right = "walk_right"
+input_forward = "walk_forward"
+input_back = "walk_backward"
+
+[connection signal="body_entered" from="LightShaft/Area3D" to="LightShaft" method="_on_light_entered"]
+[connection signal="body_exited" from="LightShaft/Area3D" to="LightShaft" method="_on_light_exited"]

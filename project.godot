@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="PixelJamDoodle"
+config/name="Dungeon Gardener"
 run/main_scene="uid://bmm722h35elbx"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
@@ -19,10 +19,11 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/always_on_top=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/script-ide/plugin.cfg")
+enabled=PackedStringArray("res://addons/gd_cheatsheet/plugin.cfg", "res://addons/gdscript/plugin.cfg", "res://addons/script-ide/plugin.cfg")
 
 [file_customization]
 

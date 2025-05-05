@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://bhrl7vos2fpo5"]
+
+[node name="GDScript" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1461.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/MarginContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]GDScript 4 Cheatsheet[/b]
+
+[i]Ternary / Inline If[/i]
+[code]
+var x := condition ? a : b
+var x := a if condition else b
+[/code]
+
+[i]Clamp / Min / Max[/i]
+[code]
+value = clamp(value, min_val, max_val)
+value = min(a, b)
+value = max(a, b)
+[/code]
+
+[i]Match (switch-like)[/i]
+[code]
+match state:
+    \"idle\": do_idle()
+    \"run\": do_run()
+    _: print(\"unknown\")
+[/code]
+
+[i]Null-safe Access[/i]
+[code]
+var text_length := node?.text.length()
+[/code]
+
+[i]Null Coalescing[/i]
+[code]
+var name := input or \"default\"
+[/code]
+
+[i]Ranges & Loops[/i]
+[code]
+for i in 0..10:
+    pass  # 0 to 9
+for i in 0..<10:
+    pass  # same
+[/code]
+
+[i]Type Inference[/i]
+[code]
+var velocity := Vector3.ZERO
+[/code]
+
+[i]Typed Exports[/i]
+[code]
+@export var speed: float = 5.0
+@export_enum(\"Idle\", \"Run\", \"Jump\") var state: String
+[/code]
+
+[i]Lambdas[/i]
+[code]
+var double := func(x): return x * 2
+print(double.call(4))
+[/code]"

@@ -1,27 +1,32 @@
-[gd_scene load_steps=5 format=3 uid="uid://055cq1x7gheq"]
+[gd_scene load_steps=6 format=3 uid="uid://055cq1x7gheq"]
 
 [ext_resource type="PackedScene" uid="uid://cb46l6pqg0h2b" path="res://entities/plant/mesh/plantpot.glb" id="1_s1anw"]
 [ext_resource type="Script" uid="uid://c5syu518p1yxx" path="res://entities/plant/code/plant.gd" id="1_uix6i"]
 [ext_resource type="Texture2D" uid="uid://cpf8nw0ikkbhj" path="res://entities/plant/art/plantGreen_1.png" id="2_mx1je"]
+[ext_resource type="Script" uid="uid://ph834vy0i22w" path="res://entities/plant/code/sprite_3d.gd" id="4_kiq7s"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_uix6i"]
-height = 0.330078
+height = 0.258301
 radius = 0.152832
 
 [node name="Plant" type="CharacterBody3D" groups=["plant"]]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 script = ExtResource("1_uix6i")
 
 [node name="mesh" parent="." instance=ExtResource("1_s1anw")]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(0.505, 0, 0, 0, 0.5, 0, 0, 0, 1.055, 0, 0.106325, 0.0104775)
-offset = Vector2(0, 21.475)
-pixel_size = 0.005
+offset = Vector2(0, 22)
+modulate = Color(0, 0.968393, 0, 1)
+pixel_size = 0.001
 billboard = 1
-shaded = true
 texture_filter = 0
 texture = ExtResource("2_mx1je")
+script = ExtResource("4_kiq7s")
+water_level = 100.0
+healthy_color = Color(0, 0.968393, 0, 1)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0439453, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00805666, 0)
 shape = SubResource("CylinderShape3D_uix6i")

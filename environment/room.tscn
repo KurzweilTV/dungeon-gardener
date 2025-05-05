@@ -1,8 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmm722h35elbx"]
+[gd_scene load_steps=21 format=3 uid="uid://bmm722h35elbx"]
 
-[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="1_aqwxi"]
+[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/player/player.tscn" id="1_aqwxi"]
 [ext_resource type="Material" uid="uid://d2ms68knptoyb" path="res://environment/art/stone.tres" id="1_qvg63"]
+[ext_resource type="Texture2D" uid="uid://cxal5auv2ri0p" path="res://environment/art/rusted_metal/rusty-metal_albedo.png" id="2_6w2tn"]
 [ext_resource type="Script" uid="uid://imc1ihvfjqv7" path="res://environment/code/light_shaft.gd" id="2_odrw7"]
+[ext_resource type="Texture2D" uid="uid://ljbni57s6mph" path="res://environment/art/rusted_metal/rusty-metal_ao.png" id="3_l8s2c"]
+[ext_resource type="Texture2D" uid="uid://dvnsrfmhgbhm7" path="res://environment/art/rusted_metal/rusty-metal_height.png" id="4_hqdl8"]
+[ext_resource type="Texture2D" uid="uid://dyqe7u6od6ovg" path="res://environment/art/decals/puddle.png" id="4_oggar"]
+[ext_resource type="Texture2D" uid="uid://bs1j52o3aat2v" path="res://environment/art/rusted_metal/rusty-metal_metallic.png" id="5_6sc3i"]
+[ext_resource type="Texture2D" uid="uid://cfhhslwhbdf2f" path="res://environment/art/decals/blood.png" id="5_80srb"]
+[ext_resource type="Texture2D" uid="uid://custk5w4epcl" path="res://environment/art/rusted_metal/rusty-metal_roughness.png" id="6_m685o"]
+[ext_resource type="AudioStream" uid="uid://ch0qntsxu5ufh" path="res://environment/sound/ambient.mp3" id="11_l8s2c"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_odrw7"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -14,17 +22,41 @@ ground_horizon_color = Color(0, 0, 0, 1)
 sky_material = SubResource("ProceduralSkyMaterial_odrw7")
 
 [sub_resource type="Environment" id="Environment_oggar"]
-background_mode = 2
+background_color = Color(0.963513, 0.539879, 0, 1)
 sky = SubResource("Sky_qvg63")
+ambient_light_source = 3
 reflected_light_source = 1
 tonemap_mode = 4
+tonemap_exposure = 1.5
+ssao_enabled = true
+ssao_radius = 1.85
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+sdfgi_bounce_feedback = 1.0
+sdfgi_min_cell_size = 0.1
+sdfgi_energy = 0.2
 fog_light_color = Color(0, 0, 0, 1)
 fog_light_energy = 4.4
 fog_sun_scatter = 1.0
 fog_density = 0.1555
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.0
-volumetric_fog_albedo = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ipb84"]
+albedo_texture = ExtResource("2_6w2tn")
+metallic = 1.0
+metallic_specular = 0.44
+metallic_texture = ExtResource("5_6sc3i")
+metallic_texture_channel = 4
+roughness_texture = ExtResource("6_m685o")
+roughness_texture_channel = 4
+ao_enabled = true
+ao_texture = ExtResource("3_l8s2c")
+ao_texture_channel = 4
+heightmap_scale = 4.208
+heightmap_texture = ExtResource("4_hqdl8")
+uv1_scale = Vector3(0.585, 0.585, 0.585)
+uv1_triplanar = true
+uv1_triplanar_sharpness = 8.57417
 
 [sub_resource type="NoiseTexture3D" id="NoiseTexture3D_aqwxi"]
 
@@ -37,6 +69,13 @@ density_texture = SubResource("NoiseTexture3D_aqwxi")
 [sub_resource type="BoxShape3D" id="BoxShape3D_aqwxi"]
 size = Vector3(1.8125, 0.727722, 6.12036)
 
+[sub_resource type="Gradient" id="Gradient_l8s2c"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hqdl8"]
+gradient = SubResource("Gradient_l8s2c")
+fill = 1
+fill_to = Vector2(0, 0)
+
 [node name="Room" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -45,11 +84,13 @@ environment = SubResource("Environment_oggar")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-1, 2.5268e-08, -8.36915e-08, 0, 0.957319, 0.289032, 8.74228e-08, 0.289032, -0.957319, 0, 0, 0)
 light_color = Color(0.963513, 0.539879, 0, 1)
-light_energy = 16.0
+light_energy = 4.0
+light_indirect_energy = 12.0
+light_volumetric_fog_energy = 3.0
 light_bake_mode = 1
 shadow_enabled = true
 shadow_blur = 1.811
-directional_shadow_blend_splits = true
+directional_shadow_max_distance = 20.0
 
 [node name="Walls" type="CSGCombiner3D" parent="."]
 material_override = ExtResource("1_qvg63")
@@ -60,9 +101,9 @@ use_collision = true
 size = Vector3(10, 0.1, 10)
 
 [node name="Cieling" type="CSGBox3D" parent="Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.135025, 2.15631, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.135025, 2.15631, -0.155762)
 use_collision = true
-size = Vector3(10.8746, 0.530475, 10)
+size = Vector3(10.8746, 0.530475, 10.3115)
 metadata/_edit_lock_ = true
 
 [node name="Wall1" type="CSGBox3D" parent="Walls"]
@@ -95,10 +136,33 @@ transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -
 use_collision = true
 size = Vector3(1.1507, 0.32002, 1.91629)
 
+[node name="Piece5" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, 0, -0.328459, 0.191048, -5.59536)
+use_collision = true
+size = Vector3(1.53383, 0.83396, 10.5877)
+
 [node name="Piece4" type="CSGBox3D" parent="Walls"]
 transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, 0, 0.399758, 1.8508, -5.04346)
 use_collision = true
 size = Vector3(0.187138, 0.328198, 1.9982)
+
+[node name="Metal" type="CSGCombiner3D" parent="."]
+material_override = SubResource("StandardMaterial3D_ipb84")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Metal"]
+transform = Transform3D(0.930443, 0.366436, 0, -0.366436, 0.930443, 0, 0, 0, 1, -0.0543909, 1.44679, -5.01985)
+radius = 0.0297852
+height = 0.825439
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Metal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45838, 1.40465, -5.01985)
+radius = 0.0297852
+height = 0.734863
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Metal"]
+transform = Transform3D(0.994249, -0.107097, 0, 0.107097, 0.994249, 0, 0, 0, 1, 0.979305, 1.41715, -5.01985)
+radius = 0.0297852
+height = 0.76001
 
 [node name="LightShaft" type="FogVolume" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.959874, -0.280432, 0, 0.280432, 0.959874, 0.410473, 0.552584, -2.30587)
@@ -112,27 +176,54 @@ script = ExtResource("2_odrw7")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.003021, -0.0906978)
 shape = SubResource("BoxShape3D_aqwxi")
 
-[node name="BounceLight1" type="OmniLight3D" parent="LightShaft"]
-transform = Transform3D(1, 0, 0, 0, 0.959874, 0.280432, 0, -0.280432, 0.959874, 0.019832, 1.81588, 3.4421)
-light_color = Color(0.8024, 0.445778, 1.15514e-06, 1)
-light_bake_mode = 1
-distance_fade_enabled = true
-omni_attenuation = 2.0
+[node name="Sounds" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57308, -0.353549)
 
-[node name="BounceLight2" type="OmniLight3D" parent="LightShaft"]
-transform = Transform3D(1, 0, 0, 0, 0.959874, 0.280432, 0, -0.280432, 0.959874, 0.019832, 0.252294, -1.90982)
-light_color = Color(0.8024, 0.445778, 1.15514e-06, 1)
-light_bake_mode = 1
-distance_fade_enabled = true
-omni_attenuation = 2.0
+[node name="AmbientHum" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("11_l8s2c")
+volume_db = -5.0
+pitch_scale = 0.6
+autoplay = true
+mix_target = 2
+parameters/looping = true
+
+[node name="Decals" type="Node3D" parent="."]
+
+[node name="Water1" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.54391, 0.00438261, 2.25471)
+size = Vector3(3.36438, 0.117546, 3.45908)
+texture_albedo = ExtResource("4_oggar")
+texture_orm = SubResource("GradientTexture2D_hqdl8")
+upper_fade = 0.126135
+
+[node name="Blood1" type="Decal" parent="Decals"]
+transform = Transform3D(-4.37114e-08, -1, 0, -0.00759205, 3.31859e-10, -0.999971, 0.999971, -4.37101e-08, -0.00759205, 3.43216, 0.964666, 1.36568)
+size = Vector3(4.71283, 0.0282612, 1.91925)
+texture_albedo = ExtResource("5_80srb")
+modulate = Color(0.54099, 0.54099, 0.54099, 1)
+albedo_mix = 0.84
+
+[node name="Blood2" type="Decal" parent="Decals"]
+transform = Transform3D(-0.00759205, 4.40432e-08, -0.999971, 4.40433e-08, 1, 4.37101e-08, 0.999971, -4.37101e-08, -0.00759205, 1.9423, 0.0515432, 2.34064)
+size = Vector3(2.76245, 0.0472569, 2.69678)
+texture_albedo = ExtResource("5_80srb")
+modulate = Color(0.54099, 0.54099, 0.54099, 1)
+albedo_mix = 0.84
+
+[node name="Blood3" type="Decal" parent="Decals"]
+transform = Transform3D(-0.00759205, 4.40432e-08, -0.999971, 4.40433e-08, 1, 4.37101e-08, 0.999971, -4.37101e-08, -0.00759205, -0.00562657, 0.0545994, -4.25896)
+size = Vector3(2.5, 0.0699463, 2.5)
+texture_albedo = ExtResource("5_80srb")
+modulate = Color(0.54099, 0.54099, 0.54099, 1)
+albedo_mix = 0.84
 
 [node name="Player" parent="." instance=ExtResource("1_aqwxi")]
-transform = Transform3D(0.838642, 0, 0.544683, 0, 1, 0, -0.544683, 0, 0.838642, 2.61534, -0.0633421, 2.83721)
+transform = Transform3D(0.838642, 0, 0.544683, 0, 1, 0, -0.544683, 0, 0.838642, -0.520726, -0.0633421, 2.83721)
 can_sprint = true
 look_speed = 0.001
-base_speed = 1.0
-jump_velocity = 2.0
-sprint_speed = 2.0
+base_speed = 0.8
+jump_velocity = 2.5
+sprint_speed = 1.5
 input_left = "walk_left"
 input_right = "walk_right"
 input_forward = "walk_forward"

@@ -353,7 +353,7 @@ shape = SubResource("BoxShape3D_m685o")
 
 [node name="WaterDripping" type="GPUParticles3D" parent="WaterArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.265484, 0.773746, 0.0628431)
-amount = 50
+amount = 30
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_l8s2c")
 draw_pass_1 = SubResource("SphereMesh_6sc3i")

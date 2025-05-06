@@ -15,6 +15,10 @@ run/main_scene="uid://bmm722h35elbx"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[debug]
+
+gdscript/warnings/unused_signal=0
+
 [display]
 
 window/size/viewport_width=1920
@@ -59,7 +63,11 @@ sprint={
 ]
 }
 
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
 [rendering]
 
-anti_aliasing/quality/msaa_2d=1
-anti_aliasing/quality/msaa_3d=1
+global_illumination/voxel_gi/quality=1
+anti_aliasing/quality/msaa_3d=2

@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b28qgr1y1ax3k"]
-
-[ext_resource type="PackedScene" uid="uid://bydmx0y5jjbra" path="res://entities/plant/plant_mesh.tscn" id="1_sf6p2"]
-
-[node name="plantpot" type="Node3D"]
-
-[node name="Cylinder" parent="." instance=ExtResource("1_sf6p2")]

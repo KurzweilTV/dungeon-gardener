@@ -72,6 +72,9 @@ density_texture = SubResource("NoiseTexture3D_aqwxi")
 [sub_resource type="BoxShape3D" id="BoxShape3D_aqwxi"]
 size = Vector3(1.8125, 0.727722, 6.12036)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_m685o"]
+size = Vector3(1.85989, 2.37445, 1.72559)
+
 [sub_resource type="Gradient" id="Gradient_l8s2c"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_hqdl8"]
@@ -79,13 +82,11 @@ gradient = SubResource("Gradient_l8s2c")
 fill = 1
 fill_to = Vector2(0, 0)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_m685o"]
-size = Vector3(1.85989, 2.37445, 1.72559)
-
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l8s2c"]
 emission_shape_scale = Vector3(0.7, 0.1, 0.7)
 emission_shape = 3
 emission_box_extents = Vector3(1, 1, 1)
+gravity = Vector3(0, -4, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hqdl8"]
 albedo_color = Color(0.364706, 0.564706, 1, 1)
@@ -231,6 +232,14 @@ script = ExtResource("2_odrw7")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.003021, -0.0906978)
 shape = SubResource("BoxShape3D_aqwxi")
 
+[node name="WaterArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.34804, 1.00406, 2.90191)
+script = ExtResource("12_6sc3i")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WaterArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.468875, 0, 0)
+shape = SubResource("BoxShape3D_m685o")
+
 [node name="Sounds" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57308, -0.353549)
 
@@ -250,56 +259,72 @@ autoplay = true
 max_distance = 10.0
 panning_strength = 0.5
 
+[node name="Watersounds" type="AudioStreamPlayer3D" parent="Sounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08256, -1.17075, 3.3183)
+stream = ExtResource("12_hqdl8")
+volume_db = -16.0
+pitch_scale = 0.9
+autoplay = true
+max_distance = 7.0
+parameters/looping = true
+
 [node name="Decals" type="Node3D" parent="."]
 
 [node name="Water1" type="Decal" parent="Decals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85977, 0.00438261, 2.88964)
+transform = Transform3D(1.32, 0, 0, 0, 1.32, 0, 0, 0, 1.32, -1.85977, 0.00438261, 2.88964)
 size = Vector3(3.67961, 0.117546, 2.83596)
 texture_albedo = ExtResource("4_oggar")
 texture_orm = SubResource("GradientTexture2D_hqdl8")
-upper_fade = 0.126135
+upper_fade = 0.559821
+lower_fade = 0.689219
 
 [node name="Water7" type="Decal" parent="Decals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.24514, 0.00438261, 2.88964)
+transform = Transform3D(1.32, 0, 0, 0, 1.32, 0, 0, 0, 1.32, -2.24514, 0.00438261, 2.88964)
 size = Vector3(3.67961, 0.117546, 2.83596)
 texture_albedo = ExtResource("4_oggar")
 texture_orm = SubResource("GradientTexture2D_hqdl8")
-upper_fade = 0.126135
+upper_fade = 0.559821
+lower_fade = 0.689219
 
 [node name="Water2" type="Decal" parent="Decals"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.20614, 1.87463, 3.03562)
+transform = Transform3D(1.32, 0, 0, 0, 1.32, 0, 0, 0, 1.32, -2.20614, 1.87463, 3.03562)
 size = Vector3(2.7404, 0.117546, 2.54399)
 texture_albedo = ExtResource("4_oggar")
 texture_orm = SubResource("GradientTexture2D_hqdl8")
-upper_fade = 0.126135
+upper_fade = 0.559821
+lower_fade = 0.689219
 
 [node name="Water3" type="Decal" parent="Decals"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.83411, 0.496012, 2.92551)
+transform = Transform3D(-5.7699e-08, 1.32, 0, -1.32, -5.7699e-08, 0, 0, 0, 1.32, -2.83411, 0.496012, 2.92551)
 size = Vector3(4.16628, 0.117546, 2.54399)
 texture_albedo = ExtResource("4_oggar")
 texture_orm = SubResource("GradientTexture2D_hqdl8")
-upper_fade = 0.126135
+upper_fade = 0.559821
+lower_fade = 0.689219
 
 [node name="Water6" type="Decal" parent="Decals"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -2.83411, 0.858672, 3.55394)
+transform = Transform3D(-5.7699e-08, 1.32, 0, -1.32, -5.7699e-08, 0, 0, 0, 1.32, -2.83411, 0.858672, 3.55394)
 size = Vector3(3.44096, 0.117546, 1.28713)
 texture_albedo = ExtResource("4_oggar")
 texture_orm = SubResource("GradientTexture2D_hqdl8")
-upper_fade = 0.126135
+upper_fade = 0.559821
+lower_fade = 0.689219
 
 [node name="Water4" type="Decal" parent="Decals"]
-transform = Transform3D(1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, -2.0585, 0.780519, 3.90843)
+transform = Transform3D(2.52211e-15, -5.7699e-08, -1.32, 1.32, 1.73097e-07, -5.0442e-15, 1.73097e-07, -1.32, 5.7699e-08, -2.0585, 0.780519, 3.90843)
 size = Vector3(3.28023, 0.117546, 2.84205)
 texture_albedo = ExtResource("4_oggar")
 texture_orm = SubResource("GradientTexture2D_hqdl8")
-upper_fade = 0.126135
+upper_fade = 0.559821
+lower_fade = 0.689219
 
 [node name="Water5" type="Decal" parent="Decals"]
-transform = Transform3D(1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, -2.21102, 1.01682, 3.90892)
+transform = Transform3D(2.52211e-15, -5.7699e-08, -1.32, -1.32, -5.7699e-08, -4.75185e-21, -5.7699e-08, 1.32, -5.7699e-08, -2.21102, 1.01682, 3.90892)
 size = Vector3(3.40518, 0.117546, 2.02518)
 texture_albedo = ExtResource("4_oggar")
 texture_orm = SubResource("GradientTexture2D_hqdl8")
-upper_fade = 0.126135
+upper_fade = 0.559821
+lower_fade = 0.689219
 
 [node name="Blood1" type="Decal" parent="Decals"]
 transform = Transform3D(-4.37114e-08, -1, 0, -0.00759205, 3.31859e-10, -0.999971, 0.999971, -4.37101e-08, -0.00759205, 3.43216, 0.964666, 1.36568)
@@ -343,29 +368,22 @@ texture_albedo = ExtResource("5_80srb")
 modulate = Color(0.54099, 0.54099, 0.54099, 1)
 albedo_mix = 0.84
 
-[node name="WaterArea" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.34804, 1.00406, 2.90191)
-script = ExtResource("12_6sc3i")
+[node name="Particles" type="Node3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WaterArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.468875, 0, 0)
-shape = SubResource("BoxShape3D_m685o")
-
-[node name="WaterDripping" type="GPUParticles3D" parent="WaterArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.265484, 0.773746, 0.0628431)
+[node name="WaterDripping" type="GPUParticles3D" parent="Particles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08256, 1.77781, 2.96475)
 amount = 30
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_l8s2c")
 draw_pass_1 = SubResource("SphereMesh_6sc3i")
 
-[node name="Watersounds" type="AudioStreamPlayer3D" parent="WaterArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.265484, -0.601726, 0.0628431)
-stream = ExtResource("12_hqdl8")
-volume_db = -16.0
-pitch_scale = 0.9
-autoplay = true
-max_distance = 7.0
-parameters/looping = true
+[node name="WindParticles" type="GPUParticles3D" parent="Particles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.08818, 1.72971, -5.94004)
+cast_shadow = 0
+amount = 50
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_m685o")
+draw_pass_1 = SubResource("BoxMesh_772mo")
 
 [node name="Player" parent="." instance=ExtResource("1_aqwxi")]
 transform = Transform3D(0.838642, 0, 0.544683, 0, 1, 0, -0.544683, 0, 0.838642, 2.88579, -0.0633421, 3.40738)
@@ -378,14 +396,6 @@ input_left = "walk_left"
 input_right = "walk_right"
 input_forward = "walk_forward"
 input_back = "walk_backward"
-
-[node name="WindParticles" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.08818, 1.72971, -5.94004)
-cast_shadow = 0
-amount = 30
-lifetime = 2.0
-process_material = SubResource("ParticleProcessMaterial_m685o")
-draw_pass_1 = SubResource("BoxMesh_772mo")
 
 [connection signal="body_entered" from="LightShaft/Area3D" to="LightShaft" method="_on_light_entered"]
 [connection signal="body_exited" from="LightShaft/Area3D" to="LightShaft" method="_on_light_exited"]

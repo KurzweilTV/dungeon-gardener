@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bs72ogkvdd7d6"]
+[gd_scene load_steps=7 format=3 uid="uid://bs72ogkvdd7d6"]
 
 [ext_resource type="Script" uid="uid://ge7vvllhlrrr" path="res://addons/player/proto_controller.gd" id="1_ucva2"]
 [ext_resource type="PackedScene" uid="uid://055cq1x7gheq" path="res://entities/plant/plant.tscn" id="2_wr06p"]
+[ext_resource type="Resource" uid="uid://dxw1xu3acwuht" path="res://resources/tomato.tres" id="3_exhb3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
 albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
@@ -37,9 +38,8 @@ fov = 65.0
 [node name="Plant" parent="Head" instance=ExtResource("2_wr06p")]
 transform = Transform3D(0.991456, -0.130438, 0.000623748, 0.129525, 0.983923, -0.122954, 0.0154243, 0.121985, 0.992412, 0.096117, -0.203705, -0.360497)
 plant_type = 0
-growth_amount = 60.0
 growth_rate = 1.0
-water_rate = 15.0
+stats = ExtResource("3_exhb3")
 
 [node name="Torch" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02232, 0)

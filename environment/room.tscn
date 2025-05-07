@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bmm722h35elbx"]
+[gd_scene load_steps=32 format=3 uid="uid://bmm722h35elbx"]
 
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/player/player.tscn" id="1_aqwxi"]
 [ext_resource type="Material" uid="uid://d2ms68knptoyb" path="res://environment/art/stone.tres" id="1_qvg63"]
@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://ch0qntsxu5ufh" path="res://environment/sound/ambient.mp3" id="11_l8s2c"]
 [ext_resource type="Script" uid="uid://bnvdy3dq52a4h" path="res://environment/code/water_area.gd" id="12_6sc3i"]
 [ext_resource type="AudioStream" uid="uid://c3drg8wtifcmv" path="res://environment/sound/dripping.mp3" id="12_hqdl8"]
+[ext_resource type="PackedScene" uid="uid://b4nbgxvhffstv" path="res://entities/decorations/table/table.tscn" id="15_ipb84"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_odrw7"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -127,10 +128,11 @@ size = Vector3(0.03, 0.03, 0.03)
 [node name="Room" type="Node3D"]
 
 [node name="TestLight" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.11734, 0.95499, 0.684052)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1793, 0.95499, 1.15438)
 visible = false
 light_color = Color(0.963513, 0.539879, 0, 1)
 light_energy = 1.984
+shadow_enabled = true
 omni_range = 10.0
 omni_attenuation = 2.0
 
@@ -268,6 +270,11 @@ autoplay = true
 max_distance = 7.0
 parameters/looping = true
 
+[node name="Furniture" type="Node3D" parent="."]
+
+[node name="Table" parent="Furniture" instance=ExtResource("15_ipb84")]
+transform = Transform3D(-6.2153e-09, 0, -0.14219, 0, 0.14219, 0, 0.14219, 0, -6.2153e-09, 3.25944, 0.110727, 0.283512)
+
 [node name="Decals" type="Node3D" parent="."]
 
 [node name="Water1" type="Decal" parent="Decals"]
@@ -397,7 +404,7 @@ input_right = "walk_right"
 input_forward = "walk_forward"
 input_back = "walk_backward"
 
-[connection signal="body_entered" from="LightShaft/Area3D" to="LightShaft" method="_on_light_entered"]
-[connection signal="body_exited" from="LightShaft/Area3D" to="LightShaft" method="_on_light_exited"]
-[connection signal="body_entered" from="WaterArea" to="WaterArea" method="_on_plant_entered"]
-[connection signal="body_exited" from="WaterArea" to="WaterArea" method="_on_plant_exited"]
+[connection signal="area_entered" from="LightShaft/Area3D" to="LightShaft" method="_on_light_entered"]
+[connection signal="area_exited" from="LightShaft/Area3D" to="LightShaft" method="_on_light_exited"]
+[connection signal="area_entered" from="WaterArea" to="WaterArea" method="_on_plant_entered"]
+[connection signal="area_exited" from="WaterArea" to="WaterArea" method="_on_plant_exited"]

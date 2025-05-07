@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://055cq1x7gheq"]
+[gd_scene load_steps=13 format=3 uid="uid://055cq1x7gheq"]
 
 [ext_resource type="Script" uid="uid://c5syu518p1yxx" path="res://entities/plant/code/plant.gd" id="1_uix6i"]
 [ext_resource type="Texture2D" uid="uid://cpf8nw0ikkbhj" path="res://entities/plant/art/plantGreen_1.png" id="2_mx1je"]
@@ -23,18 +23,45 @@ normal_texture = ExtResource("4_rj2vr")
 height = 0.258301
 radius = 0.152832
 
-[node name="Plant" type="CharacterBody3D" groups=["plant"]]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tv58q"]
+transparency = 1
+albedo_color = Color(0, 1, 1, 0.541176)
+metallic_specular = 1.0
+roughness = 0.24
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rj2vr"]
+emission_shape_scale = Vector3(0.06, 0.01, 0.065)
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = 1.07288e-05
+angle_max = 460.5
+direction = Vector3(0, 1, 0)
+spread = 30.0
+initial_velocity_min = 0.4
+initial_velocity_max = 0.5
+gravity = Vector3(0, -1.5, 0)
+
+[sub_resource type="SphereMesh" id="SphereMesh_6kgjx"]
+radius = 0.003
+height = 0.006
+radial_segments = 8
+rings = 4
+
+[node name="Plant" type="Area3D" groups=["plant"]]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+collision_mask = 0
 script = ExtResource("1_uix6i")
+plant_type = 1
 
 [node name="Pot" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
+transform = Transform3D(0.508661, 0, 0, 0, 0.508661, 0, 0, 0, 0.508661, 0, 0.0201853, -0.00015937)
 mesh = ExtResource("3_kiq7s")
 surface_material_override/0 = SubResource("StandardMaterial3D_uix6i")
 surface_material_override/1 = SubResource("StandardMaterial3D_kiq7s")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.505, 0, 0, 0, 0.5, 0, 0, 0, 1.055, 0, 0.11519, -0.000973073)
+transform = Transform3D(0.607127, 0, 0, 0, 0.601116, 0, 0, 0, 1.26835, 0, 0.0787779, -0.000654334)
 offset = Vector2(0, 22)
 modulate = Color(0, 0.968393, 0, 1)
 pixel_size = 0.001
@@ -43,6 +70,16 @@ texture_filter = 0
 texture = ExtResource("2_mx1je")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00805666, 0)
+transform = Transform3D(0.508661, 0, 0, 0, 0.508661, 0, 0, 0, 0.508661, 0, 0.0242834, -0.00015937)
 shape = SubResource("CylinderShape3D_uix6i")
 debug_fill = false
+
+[node name="PlantParticles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000813912, 0.0763877, -0.0157928)
+material_override = SubResource("StandardMaterial3D_tv58q")
+cast_shadow = 0
+emitting = false
+amount = 10
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_rj2vr")
+draw_pass_1 = SubResource("SphereMesh_6kgjx")

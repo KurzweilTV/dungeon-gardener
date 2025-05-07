@@ -35,12 +35,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.777618, -0.0458977)
 fov = 65.0
 
 [node name="Plant" parent="Head" instance=ExtResource("2_wr06p")]
-transform = Transform3D(0.991456, -0.130438, 0.000623748, 0.130193, 0.989861, 0.0567861, -0.0080245, -0.0562198, 0.998386, 0.400149, -0.280787, -0.488631)
+transform = Transform3D(0.991456, -0.130438, 0.000623748, 0.129525, 0.983923, -0.122954, 0.0154243, 0.121985, 0.992412, 0.096117, -0.203705, -0.360497)
+plant_type = 0
+growth_amount = 60.0
 growth_rate = 1.0
 water_rate = 15.0
 
 [node name="Torch" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02232, 0)
 light_color = Color(0.791082, 0.439168, 0, 1)
+shadow_enabled = true
 omni_range = 10.0
 omni_attenuation = 2.0

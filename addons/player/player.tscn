@@ -38,7 +38,6 @@ fov = 65.0
 [node name="Plant" parent="Head" instance=ExtResource("2_wr06p")]
 transform = Transform3D(0.991456, -0.130438, 0.000623748, 0.129525, 0.983923, -0.122954, 0.0154243, 0.121985, 0.992412, 0.096117, -0.203705, -0.360497)
 plant_type = 0
-growth_rate = 1.0
 stats = ExtResource("3_exhb3")
 
 [node name="Torch" type="OmniLight3D" parent="."]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://055cq1x7gheq"]
+[gd_scene load_steps=22 format=3 uid="uid://055cq1x7gheq"]
 
 [ext_resource type="Script" uid="uid://c5syu518p1yxx" path="res://entities/plant/code/plant.gd" id="1_uix6i"]
 [ext_resource type="Texture2D" uid="uid://cpf8nw0ikkbhj" path="res://entities/plant/art/plantGreen_1.png" id="2_mx1je"]
@@ -6,7 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://c8bc5v6kw6son" path="res://entities/plant/art/dry-dirt1-albedo.png" id="3_tv58q"]
 [ext_resource type="Texture2D" uid="uid://cc2viouel6rcg" path="res://entities/plant/art/dry-dirt1-normal2.png" id="4_rj2vr"]
 [ext_resource type="Texture2D" uid="uid://u77fcft1ntod" path="res://entities/plant/art/dry-dirt1-roughness.png" id="5_6kgjx"]
-[ext_resource type="AudioStream" uid="uid://b0e5fcb78nuey" path="res://environment/sound/frying.mp3" id="7_rj2vr"]
+[ext_resource type="Texture2D" uid="uid://cnem6wwq3a8w" path="res://entities/plant/art/blackSmoke00.png" id="6_k0luw"]
+[ext_resource type="AudioStream" uid="uid://jm7ldwbe60mk" path="res://environment/sound/fryer.ogg" id="7_rj2vr"]
+[ext_resource type="AudioStream" uid="uid://d2tabt27g0sma" path="res://environment/sound/dirt_pour.ogg" id="8_6kgjx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uix6i"]
 albedo_color = Color(0.499144, 0.286566, 0.181366, 1)
@@ -58,6 +60,33 @@ scale_max = 1.5
 [sub_resource type="BoxMesh" id="BoxMesh_k0luw"]
 size = Vector3(0.005, 0.005, 0.005)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k0luw"]
+emission_shape_scale = Vector3(0.15, 0.15, 0.15)
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = 1.07288e-05
+angle_max = 360.0
+direction = Vector3(0, 1, 0)
+gravity = Vector3(0, 0.02, 0)
+scale_min = 0.5
+scale_max = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7dkou"]
+transparency = 1
+blend_mode = 2
+shading_mode = 2
+disable_ambient_light = true
+albedo_texture = ExtResource("6_k0luw")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_7dkou"]
+material = SubResource("StandardMaterial3D_7dkou")
+size = Vector2(0.03, 0.03)
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_uix6i"]
 height = 0.258301
 radius = 0.152832
@@ -89,12 +118,22 @@ draw_pass_1 = SubResource("SphereMesh_6kgjx")
 [node name="DryParticles" type="GPUParticles3D" parent="Pot"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123589, 0)
+visible = false
 material_override = SubResource("StandardMaterial3D_rj2vr")
-emitting = false
 amount = 20
-preprocess = 0.2
+randomness = 0.5
 process_material = SubResource("ParticleProcessMaterial_6kgjx")
 draw_pass_1 = SubResource("BoxMesh_k0luw")
+
+[node name="BurnParticles" type="GPUParticles3D" parent="Pot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123589, 0)
+emitting = false
+amount = 50
+lifetime = 3.0
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_k0luw")
+draw_pass_1 = SubResource("QuadMesh_7dkou")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(0.607127, 0, 0, 0, 0.601116, 0, 0, 0, 1.26835, 0, 0.0787779, -0.000654334)
@@ -112,6 +151,10 @@ debug_fill = false
 
 [node name="FryingSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("7_rj2vr")
-volume_db = -15.0
-pitch_scale = 0.7
-autoplay = true
+volume_db = -30.0
+max_distance = 1.0
+
+[node name="WateredSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("8_6kgjx")
+volume_db = -5.0
+max_distance = 2.0

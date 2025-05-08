@@ -18,6 +18,8 @@ class_name PlantStats extends Resource
 @export_category("Sunlight")
 @export var sunlight_min: float = 0.0
 @export var sunlight_max: float = 100.0
+@export var sunlight_low_threshold: float = 30
+@export var sunlight_hi_threshold: float = 90
 @export var sunlight_gain_rate: float = 8.0
 @export var sunlight_loss_rate: float = 4.0
 @export var sunlight_grow_threshold: float = 30.0

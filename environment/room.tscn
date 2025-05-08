@@ -74,7 +74,7 @@ density_texture = SubResource("NoiseTexture3D_aqwxi")
 size = Vector3(1.8125, 0.727722, 6.12036)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m685o"]
-size = Vector3(1.85989, 2.37445, 1.72559)
+size = Vector3(1.56679, 2.37445, 1.47949)
 
 [sub_resource type="Gradient" id="Gradient_l8s2c"]
 
@@ -239,7 +239,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.34804, 1.00406, 2.90191)
 script = ExtResource("12_6sc3i")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WaterArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.468875, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.322323, 0, 0.123048)
 shape = SubResource("BoxShape3D_m685o")
 
 [node name="Sounds" type="Node3D" parent="."]
@@ -265,9 +265,8 @@ panning_strength = 0.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08256, -1.17075, 3.3183)
 stream = ExtResource("12_hqdl8")
 volume_db = -16.0
-pitch_scale = 0.9
 autoplay = true
-max_distance = 7.0
+max_distance = 15.0
 parameters/looping = true
 
 [node name="Furniture" type="Node3D" parent="."]

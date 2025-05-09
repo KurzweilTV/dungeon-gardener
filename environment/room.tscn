@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bmm722h35elbx"]
+[gd_scene load_steps=33 format=3 uid="uid://bmm722h35elbx"]
 
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/player/player.tscn" id="1_aqwxi"]
 [ext_resource type="Material" uid="uid://d2ms68knptoyb" path="res://environment/art/stone.tres" id="1_qvg63"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://bnvdy3dq52a4h" path="res://environment/code/water_area.gd" id="12_6sc3i"]
 [ext_resource type="AudioStream" uid="uid://c3drg8wtifcmv" path="res://environment/sound/dripping.mp3" id="12_hqdl8"]
 [ext_resource type="PackedScene" uid="uid://b4nbgxvhffstv" path="res://entities/decorations/table/table.tscn" id="15_ipb84"]
+[ext_resource type="PackedScene" uid="uid://055cq1x7gheq" path="res://entities/plant/plant.tscn" id="16_2w8rd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_odrw7"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -402,6 +403,9 @@ input_left = "walk_left"
 input_right = "walk_right"
 input_forward = "walk_forward"
 input_back = "walk_backward"
+
+[node name="Plant" parent="." instance=ExtResource("16_2w8rd")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 2.73448, 0.577665, 0.20663)
 
 [connection signal="area_entered" from="LightShaft/Area3D" to="LightShaft" method="_on_light_entered"]
 [connection signal="area_exited" from="LightShaft/Area3D" to="LightShaft" method="_on_light_exited"]

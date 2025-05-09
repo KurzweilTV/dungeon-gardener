@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bs72ogkvdd7d6"]
+[gd_scene load_steps=12 format=3 uid="uid://bs72ogkvdd7d6"]
 
 [ext_resource type="Script" uid="uid://ge7vvllhlrrr" path="res://addons/player/proto_controller.gd" id="1_ucva2"]
 [ext_resource type="PackedScene" uid="uid://055cq1x7gheq" path="res://entities/plant/plant.tscn" id="2_wr06p"]
-[ext_resource type="Resource" uid="uid://h4m1klyod23f" path="res://resources/cactus.tres" id="3_exhb3"]
+[ext_resource type="Script" uid="uid://bxx7tf8fg6e0c" path="res://addons/player/debug_ui.gd" id="3_7ek8b"]
 [ext_resource type="Texture2D" uid="uid://dmndrbgu0d734" path="res://addons/player/art/cursor.png" id="4_7ek8b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
@@ -16,7 +16,40 @@ height = 1.8
 radius = 0.208879
 height = 0.913842
 
-[node name="ProtoController" type="CharacterBody3D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eon52"]
+bg_color = Color(0.223103, 0.223103, 0.223103, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7jco7"]
+bg_color = Color(0.214411, 0.554373, 1.27065e-05, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rcwxl"]
+bg_color = Color(0.564658, 0.649476, 1.92523e-07, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhe1f"]
+bg_color = Color(0.225422, 0.610541, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="ProtoController" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_ucva2")
 placeable_scene = ExtResource("2_wr06p")
 
@@ -36,13 +69,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.777618, -0.0458977)
 
 [node name="RayCast3D" type="RayCast3D" parent="Head"]
 target_position = Vector3(0, 0, -1.5)
+collision_mask = 513
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 fov = 65.0
 
-[node name="Plant" parent="Head" instance=ExtResource("2_wr06p")]
-transform = Transform3D(0.593687, -0.0867964, 0.0014416, 0.086773, 0.593078, -0.0269919, 0.0024797, 0.0269164, 0.599391, 0.163212, -0.2438, -0.330108)
-stats = ExtResource("3_exhb3")
+[node name="Hand" type="Marker3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14726, -0.289084, -0.372056)
 
 [node name="Torch" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02232, 0)
@@ -53,7 +86,70 @@ omni_attenuation = 2.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+[node name="DebugUI" type="PanelContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -298.0
+offset_top = 11.0
+offset_right = -11.0
+offset_bottom = 252.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_eon52")
+script = ExtResource("3_7ek8b")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/DebugUI"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/DebugUI/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="CanvasLayer/DebugUI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Health"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/DebugUI/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_7jco7")
+value = 50.0
+
+[node name="Label2" type="Label" parent="CanvasLayer/DebugUI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sunshine"
+horizontal_alignment = 1
+
+[node name="SunBar" type="ProgressBar" parent="CanvasLayer/DebugUI/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_rcwxl")
+value = 50.0
+
+[node name="Label3" type="Label" parent="CanvasLayer/DebugUI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Water"
+horizontal_alignment = 1
+
+[node name="WaterBar" type="ProgressBar" parent="CanvasLayer/DebugUI/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_uhe1f")
+value = 50.0
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/DebugUI/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Is Fully Grown?"
+alignment = 1
+
+[node name="Cursor" type="TextureRect" parent="CanvasLayer"]
 texture_filter = 1
 anchors_preset = 8
 anchor_left = 0.5

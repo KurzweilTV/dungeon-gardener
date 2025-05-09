@@ -1,6 +1,9 @@
 extends CharacterBody3D
 
+@onready var cursor: TextureRect = $CanvasLayer/Cursor
 @onready var ray_cast_3d: RayCast3D = $Head/RayCast3D
+@onready var debug_ui: PanelContainer = %DebugUI
+var target: Plant
 
 ## The object you want to place (set this in the editor to your Plant scene)
 @export var placeable_scene : PackedScene
@@ -54,11 +57,21 @@ var freeflying : bool = false
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
 @onready var collider: CollisionShape3D = $Collider
+@onready var hand: Marker3D = $Head/Hand
 
 func _ready() -> void:
-	check_input_mappings()
 	look_rotation.y = rotation.y
 	look_rotation.x = head.rotation.x
+
+func _process(delta: float) -> void:
+	if ray_cast_3d.is_colliding():
+		var thing = ray_cast_3d.get_collider()
+		if thing.name == "RayCastTarget":
+			target = thing.get_parent() as Plant
+			cursor.self_modulate = Color.GREEN
+		else: 
+			target = null
+			cursor.self_modulate = Color.WHITE
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Mouse capturing
@@ -71,16 +84,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if mouse_captured and event is InputEventMouseMotion:
 		rotate_look(event.relative)
 	
-	# Toggle freefly mode
-	if can_freefly and Input.is_action_just_pressed(input_freefly):
-		if not freeflying:
-			enable_freefly()
-		else:
-			disable_freefly()
-	
 	# Place object on interact
 	if Input.is_action_just_pressed(input_interact):
-		place_object()
+		if hand.get_child_count() == 0 and target:
+			pick_up(target)
+		elif hand.get_child_count() > 0:
+			place_held_object()
 
 
 func _physics_process(delta: float) -> void:
@@ -125,10 +134,6 @@ func _physics_process(delta: float) -> void:
 	# Use velocity to actually move
 	move_and_slide()
 
-
-## Rotate us to look around.
-## Base of controller rotates around y (left/right). Head rotates around x (up/down).
-## Modifies look_rotation based on rot_input, then resets basis and rotates by look_rotation.
 func rotate_look(rot_input : Vector2):
 	look_rotation.x -= rot_input.y * look_speed
 	look_rotation.x = clamp(look_rotation.x, deg_to_rad(-85), deg_to_rad(85))
@@ -137,17 +142,6 @@ func rotate_look(rot_input : Vector2):
 	rotate_y(look_rotation.y)
 	head.transform.basis = Basis()
 	head.rotate_x(look_rotation.x)
-
-
-func enable_freefly():
-	collider.disabled = true
-	freeflying = true
-	velocity = Vector3.ZERO
-
-func disable_freefly():
-	collider.disabled = false
-	freeflying = false
-
 
 func capture_mouse():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -158,48 +152,28 @@ func release_mouse():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	mouse_captured = false
 
+func get_target() -> Plant:
+	return target
 
-## Checks if some Input Actions haven't been created.
-## Disables functionality accordingly.
-func check_input_mappings():
-	if can_move and not InputMap.has_action(input_left):
-		push_error("Movement disabled. No InputAction found for input_left: " + input_left)
-		can_move = false
-	if can_move and not InputMap.has_action(input_right):
-		push_error("Movement disabled. No InputAction found for input_right: " + input_right)
-		can_move = false
-	if can_move and not InputMap.has_action(input_forward):
-		push_error("Movement disabled. No InputAction found for input_forward: " + input_forward)
-		can_move = false
-	if can_move and not InputMap.has_action(input_back):
-		push_error("Movement disabled. No InputAction found for input_back: " + input_back)
-		can_move = false
-	if can_jump and not InputMap.has_action(input_jump):
-		push_error("Jumping disabled. No InputAction found for input_jump: " + input_jump)
-		can_jump = false
-	if can_sprint and not InputMap.has_action(input_sprint):
-		push_error("Sprinting disabled. No InputAction found for input_sprint: " + input_sprint)
-		can_sprint = false
-	if can_freefly and not InputMap.has_action(input_freefly):
-		push_error("Freefly disabled. No InputAction found for input_freefly: " + input_freefly)
-		can_freefly = false
-	if not InputMap.has_action(input_interact):
-		push_error("Object placement disabled. No InputAction found for input_interact: " + input_interact)
+func pick_up(plant: Plant):
+	plant.reparent(hand)
+	plant.position = Vector3.ZERO
+	plant.rotation = Vector3.ZERO  # Make sure it's not tilted
+	plant.scale = Vector3.ONE * 0.5
 
-func place_object():
-	if placeable_scene == null:
-		push_warning("No scene assigned to placeable_scene!")
+func place_held_object():
+	if hand.get_child_count() == 0:
 		return
-
-	if ray_cast_3d.is_colliding():
-		var collision_point: Vector3 = ray_cast_3d.get_collision_point()
-		var collision_normal: Vector3 = ray_cast_3d.get_collision_normal()
-		var flatness_threshold = 0.95 # Adjust as needed
-
-		if collision_normal.dot(Vector3.UP) >= flatness_threshold:
-			var obj = placeable_scene.instantiate()
-			obj.set_as_top_level(true)
-			get_tree().current_scene.add_child(obj)
-			obj.global_transform.origin = collision_point
-		else:
-			push_warning("You can only place objects on mostly flat surfaces!")
+		
+	var plant = hand.get_child(0) as Plant
+	if not ray_cast_3d.is_colliding():
+		return
+		
+	var point = ray_cast_3d.get_collision_point()
+	var normal = ray_cast_3d.get_collision_normal()
+	
+	if normal.dot(Vector3.UP) >= 0.95:  # Flat enough surface, stops placing shit on walls
+		plant.reparent(get_tree().current_scene)
+		plant.global_position = point
+		plant.global_rotation = Vector3.ZERO  # Stand up straight!
+		plant.scale = Vector3.ONE * 0.5

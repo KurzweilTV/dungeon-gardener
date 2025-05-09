@@ -1,5 +1,8 @@
 class_name Player extends CharacterBody3D
 
+@onready var ray_cast_3d: RayCast3D = $Head/RayCast3D
+
+
 ## Can we move around?
 @export var can_move : bool = true
 ## Are we affected by gravity?

@@ -4,11 +4,9 @@ extends Area3D
 
 signal plant_grown
 
-enum PlantType { TOMATO, CACTUS, MUSHROOM }
-
 @export_category("Setup")
-@export var plant_type: PlantType = PlantType.TOMATO
 @export var stats: PlantStats 
+@export var plant_health: float = 50
 
 @onready var plant_sprite: Sprite3D = $Sprite3D
 @onready var pot: MeshInstance3D = %Pot
@@ -33,18 +31,10 @@ func _process(delta: float) -> void:
 	update_sounds()
 	update_water_level(delta)
 	update_sunlight_exposure(delta)
-
-	match plant_type:
-		PlantType.TOMATO:
-			_process_tomato(delta)
-		PlantType.CACTUS:
-			_process_cactus(delta)
-		PlantType.MUSHROOM:
-			_process_mushroom(delta)
-
+	process_plant_state(delta)
 	update_soil_visuals()
 
-func _process_tomato(delta: float) -> void:
+func process_plant_state(delta) -> void:
 	var low_water = water_level <= stats.water_low_threshold
 	var can_grow = sunlight_exposure > stats.sunlight_grow_threshold and not low_water and not is_max_growth
 	if can_grow:
@@ -53,21 +43,6 @@ func _process_tomato(delta: float) -> void:
 	var should_burn = sunlight_exposure > stats.sunlight_hi_threshold
 	if is_burning != should_burn:
 		set_burning(should_burn)
-
-func _process_cactus(delta: float) -> void:
-	var low_water = water_level < stats.water_low_threshold
-	if low_water:
-		return
-	elif water_level > stats.water_hi_threshold:
-		set_growth_amount(-delta)
-	elif sunlight_exposure > stats.sunlight_grow_threshold and not is_max_growth:
-		set_growth_amount(delta * 0.8)
-
-func _process_mushroom(delta: float) -> void:
-	var low_water = water_level <= stats.water_low_threshold
-	var can_grow = is_in_darkness and not low_water and not is_max_growth
-	if can_grow:
-		set_growth_amount(delta * 0.7)
 
 func set_growth_amount(delta: float) -> void:
 	var growth = delta * (stats.growth_rate if delta > 0 else stats.shrink_rate)
@@ -130,5 +105,4 @@ func set_in_darkness(in_dark: bool) -> void:
 
 func set_max_growth() -> void:
 	is_max_growth = true
-	print("Max Growth")
 	emit_signal("plant_grown")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://055cq1x7gheq"]
+[gd_scene load_steps=27 format=3 uid="uid://055cq1x7gheq"]
 
 [ext_resource type="Script" uid="uid://c5syu518p1yxx" path="res://entities/plant/code/plant.gd" id="1_uix6i"]
 [ext_resource type="Texture2D" uid="uid://cpf8nw0ikkbhj" path="res://entities/plant/art/plantGreen_1.png" id="2_mx1je"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cnem6wwq3a8w" path="res://entities/plant/art/blackSmoke00.png" id="6_k0luw"]
 [ext_resource type="AudioStream" uid="uid://jm7ldwbe60mk" path="res://environment/sound/fryer.ogg" id="7_rj2vr"]
 [ext_resource type="AudioStream" uid="uid://d2tabt27g0sma" path="res://environment/sound/dirt_pour.ogg" id="8_6kgjx"]
+[ext_resource type="Script" uid="uid://begs4u6hlc8rd" path="res://entities/plant/code/debug_ui.gd" id="10_7dkou"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uix6i"]
 albedo_color = Color(0.499144, 0.286566, 0.181366, 1)
@@ -91,11 +92,43 @@ size = Vector2(0.03, 0.03)
 height = 0.258301
 radius = 0.152832
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7vbvo"]
+bg_color = Color(0.223103, 0.223103, 0.223103, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dkou"]
+bg_color = Color(0.214411, 0.554373, 1.27065e-05, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hrmtl"]
+bg_color = Color(0.564658, 0.649476, 1.92523e-07, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_63xb3"]
+bg_color = Color(0.225422, 0.610541, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [node name="Plant" type="Area3D" groups=["plant"]]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 collision_mask = 0
 script = ExtResource("1_uix6i")
-plant_type = 1
 
 [node name="Pot" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
@@ -118,8 +151,8 @@ draw_pass_1 = SubResource("SphereMesh_6kgjx")
 [node name="DryParticles" type="GPUParticles3D" parent="Pot"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123589, 0)
-visible = false
 material_override = SubResource("StandardMaterial3D_rj2vr")
+emitting = false
 amount = 20
 randomness = 0.5
 process_material = SubResource("ParticleProcessMaterial_6kgjx")
@@ -158,3 +191,67 @@ max_distance = 1.0
 stream = ExtResource("8_6kgjx")
 volume_db = -5.0
 max_distance = 2.0
+
+[node name="DebugUI" type="CanvasLayer" parent="."]
+script = ExtResource("10_7dkou")
+
+[node name="Background" type="PanelContainer" parent="DebugUI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -298.0
+offset_top = 11.0
+offset_right = -11.0
+offset_bottom = 216.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7vbvo")
+
+[node name="MarginContainer" type="MarginContainer" parent="DebugUI/Background"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DebugUI/Background/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="DebugUI/Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Health"
+horizontal_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="DebugUI/Background/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_7dkou")
+value = 50.0
+
+[node name="Label2" type="Label" parent="DebugUI/Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sunshine"
+horizontal_alignment = 1
+
+[node name="SunBar" type="ProgressBar" parent="DebugUI/Background/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_hrmtl")
+value = 50.0
+
+[node name="Label3" type="Label" parent="DebugUI/Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Water"
+horizontal_alignment = 1
+
+[node name="WaterBar" type="ProgressBar" parent="DebugUI/Background/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_63xb3")
+value = 50.0
+
+[node name="CheckBox" type="CheckBox" parent="DebugUI/Background/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Is Fully Grown?"
+alignment = 1

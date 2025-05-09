@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="PlantStats" load_steps=2 format=3 uid="uid://cis0jfq44f6t4"]
+
+[ext_resource type="Script" uid="uid://b7h3cf1032fq7" path="res://resources/plant_types.gd" id="1_1v7l7"]
+
+[resource]
+script = ExtResource("1_1v7l7")
+growth_rate = 0.5
+shrink_rate = 0.3
+size_min = 1.0
+size_max = 4.5
+water_min = 0.0
+water_max = 100.0
+water_low_threshold = 60.0
+water_hi_threshold = 110.0
+water_rate = 15.0
+drying_rate = 1.0
+sun_dry_penalty = 20.0
+sunlight_min = 0.0
+sunlight_max = 100.0
+sunlight_low_threshold = 0.0
+sunlight_hi_threshold = 10.0
+sunlight_gain_rate = 10.0
+sunlight_loss_rate = 5.0
+sunlight_grow_threshold = 0.0
+healthy_color = Color(0, 0.698039, 0, 1)
+unhealthy_color = Color(1, 0.294118, 0.0862745, 1)
+metadata/_custom_type_script = "uid://b7h3cf1032fq7"

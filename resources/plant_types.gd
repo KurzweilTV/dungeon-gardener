@@ -1,3 +1,4 @@
+@icon("res://resources/art/leaf_icon.png")
 class_name PlantStats extends Resource
 
 @export_category("Growth")

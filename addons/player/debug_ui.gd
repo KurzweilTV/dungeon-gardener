@@ -5,10 +5,8 @@ extends PanelContainer
 @onready var water_bar: ProgressBar = %WaterBar
 @onready var check_box: CheckBox = %CheckBox
 
-var is_debug_ui: bool = true
-
 func _process(_delta: float) -> void:
-	if !is_debug_ui:
+	if !GameState.is_debug_ui:
 		visible = false
 		return
 	

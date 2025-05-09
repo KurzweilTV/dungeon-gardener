@@ -16,6 +16,10 @@ run/main_scene="uid://bmm722h35elbx"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameState="*res://globals/gamestate.gd"
+
 [debug]
 
 gdscript/warnings/unused_signal=0

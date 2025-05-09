@@ -16,8 +16,6 @@ var target: Plant
 @export var can_jump : bool = true
 ## Can we hold to run?
 @export var can_sprint : bool = false
-## Can we press to enter freefly mode (noclip)?
-@export var can_freefly : bool = false
 
 @export_group("Speeds")
 ## Look around rotation speed.
@@ -28,8 +26,6 @@ var target: Plant
 @export var jump_velocity : float = 4.5
 ## How fast do we run?
 @export var sprint_speed : float = 10.0
-## How fast do we freefly?
-@export var freefly_speed : float = 25.0
 
 @export_group("Input Actions")
 ## Name of Input Action to move Left.
@@ -44,15 +40,12 @@ var target: Plant
 @export var input_jump : String = "ui_accept"
 ## Name of Input Action to Sprint.
 @export var input_sprint : String = "sprint"
-## Name of Input Action to toggle freefly mode.
-@export var input_freefly : String = "freefly"
 ## Name of Input Action to interact (place object)
 @export var input_interact : String = "interact"
 
 var mouse_captured : bool = false
 var look_rotation : Vector2
 var move_speed : float = 0.0
-var freeflying : bool = false
 
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
@@ -93,14 +86,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	# If freeflying, handle freefly and nothing else
-	if can_freefly and freeflying:
-		var input_dir := Input.get_vector(input_left, input_right, input_forward, input_back)
-		var motion := (head.global_basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-		motion *= freefly_speed * delta
-		move_and_collide(motion)
-		return
-	
 	# Apply gravity to velocity
 	if has_gravity:
 		if not is_on_floor():
@@ -168,7 +153,7 @@ func place_held_object():
 	var plant = hand.get_child(0) as Plant
 	if not ray_cast_3d.is_colliding():
 		return
-		
+
 	var point = ray_cast_3d.get_collision_point()
 	var normal = ray_cast_3d.get_collision_normal()
 	

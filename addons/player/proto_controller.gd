@@ -1,7 +1,9 @@
-class_name Player extends CharacterBody3D
+extends CharacterBody3D
 
 @onready var ray_cast_3d: RayCast3D = $Head/RayCast3D
 
+## The object you want to place (set this in the editor to your Plant scene)
+@export var placeable_scene : PackedScene
 
 ## Can we move around?
 @export var can_move : bool = true
@@ -41,6 +43,8 @@ class_name Player extends CharacterBody3D
 @export var input_sprint : String = "sprint"
 ## Name of Input Action to toggle freefly mode.
 @export var input_freefly : String = "freefly"
+## Name of Input Action to interact (place object)
+@export var input_interact : String = "interact"
 
 var mouse_captured : bool = false
 var look_rotation : Vector2
@@ -73,6 +77,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			enable_freefly()
 		else:
 			disable_freefly()
+	
+	# Place object on interact
+	if Input.is_action_just_pressed(input_interact):
+		place_object()
+
 
 func _physics_process(delta: float) -> void:
 	# If freeflying, handle freefly and nothing else
@@ -95,7 +104,7 @@ func _physics_process(delta: float) -> void:
 
 	# Modify speed based on sprinting
 	if can_sprint and Input.is_action_pressed(input_sprint):
-			move_speed = sprint_speed
+		move_speed = sprint_speed
 	else:
 		move_speed = base_speed
 
@@ -174,3 +183,23 @@ func check_input_mappings():
 	if can_freefly and not InputMap.has_action(input_freefly):
 		push_error("Freefly disabled. No InputAction found for input_freefly: " + input_freefly)
 		can_freefly = false
+	if not InputMap.has_action(input_interact):
+		push_error("Object placement disabled. No InputAction found for input_interact: " + input_interact)
+
+func place_object():
+	if placeable_scene == null:
+		push_warning("No scene assigned to placeable_scene!")
+		return
+
+	if ray_cast_3d.is_colliding():
+		var collision_point: Vector3 = ray_cast_3d.get_collision_point()
+		var collision_normal: Vector3 = ray_cast_3d.get_collision_normal()
+		var flatness_threshold = 0.95 # Adjust as needed
+
+		if collision_normal.dot(Vector3.UP) >= flatness_threshold:
+			var obj = placeable_scene.instantiate()
+			obj.set_as_top_level(true)
+			get_tree().current_scene.add_child(obj)
+			obj.global_transform.origin = collision_point
+		else:
+			push_warning("You can only place objects on mostly flat surfaces!")

@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bs72ogkvdd7d6"]
+[gd_scene load_steps=8 format=3 uid="uid://bs72ogkvdd7d6"]
 
 [ext_resource type="Script" uid="uid://ge7vvllhlrrr" path="res://addons/player/proto_controller.gd" id="1_ucva2"]
 [ext_resource type="PackedScene" uid="uid://055cq1x7gheq" path="res://entities/plant/plant.tscn" id="2_wr06p"]
 [ext_resource type="Resource" uid="uid://h4m1klyod23f" path="res://resources/cactus.tres" id="3_exhb3"]
+[ext_resource type="Texture2D" uid="uid://dmndrbgu0d734" path="res://addons/player/art/cursor.png" id="4_7ek8b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
 albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
@@ -17,6 +18,7 @@ height = 0.913842
 
 [node name="ProtoController" type="CharacterBody3D"]
 script = ExtResource("1_ucva2")
+placeable_scene = ExtResource("2_wr06p")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.454795, 0)
@@ -33,13 +35,13 @@ shape = SubResource("CapsuleShape3D_iof21")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.777618, -0.0458977)
 
 [node name="RayCast3D" type="RayCast3D" parent="Head"]
-target_position = Vector3(0, 0, -1)
+target_position = Vector3(0, 0, -1.5)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
 fov = 65.0
 
 [node name="Plant" parent="Head" instance=ExtResource("2_wr06p")]
-transform = Transform3D(0.991456, -0.130438, 0.000623748, 0.129525, 0.983923, -0.122954, 0.0154243, 0.121985, 0.992412, 0.096117, -0.203705, -0.360497)
+transform = Transform3D(0.593687, -0.0867964, 0.0014416, 0.086773, 0.593078, -0.0269919, 0.0024797, 0.0269164, 0.599391, 0.163212, -0.2438, -0.330108)
 stats = ExtResource("3_exhb3")
 
 [node name="Torch" type="OmniLight3D" parent="."]
@@ -48,3 +50,23 @@ light_color = Color(0.791082, 0.439168, 0, 1)
 shadow_enabled = true
 omni_range = 10.0
 omni_attenuation = 2.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_7ek8b")
+stretch_mode = 3

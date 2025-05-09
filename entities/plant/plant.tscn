@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=3 uid="uid://055cq1x7gheq"]
+[gd_scene load_steps=28 format=3 uid="uid://055cq1x7gheq"]
 
 [ext_resource type="Script" uid="uid://c5syu518p1yxx" path="res://entities/plant/code/plant.gd" id="1_uix6i"]
+[ext_resource type="Resource" uid="uid://dxw1xu3acwuht" path="res://resources/tomato.tres" id="2_hrmtl"]
 [ext_resource type="Texture2D" uid="uid://cpf8nw0ikkbhj" path="res://entities/plant/art/plantGreen_1.png" id="2_mx1je"]
 [ext_resource type="ArrayMesh" uid="uid://co6fxkv14orlb" path="res://entities/plant/mesh/pot_mesh.res" id="3_kiq7s"]
 [ext_resource type="Texture2D" uid="uid://c8bc5v6kw6son" path="res://entities/plant/art/dry-dirt1-albedo.png" id="3_tv58q"]
@@ -129,10 +130,11 @@ corner_radius_bottom_left = 5
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 collision_mask = 0
 script = ExtResource("1_uix6i")
+stats = ExtResource("2_hrmtl")
 
 [node name="Pot" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(0.508661, 0, 0, 0, 0.508661, 0, 0, 0, 0.508661, 0, 0.0201853, -0.00015937)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123611, -0.00015937)
 mesh = ExtResource("3_kiq7s")
 surface_material_override/0 = SubResource("StandardMaterial3D_uix6i")
 surface_material_override/1 = SubResource("StandardMaterial3D_kiq7s")
@@ -169,7 +171,7 @@ process_material = SubResource("ParticleProcessMaterial_k0luw")
 draw_pass_1 = SubResource("QuadMesh_7dkou")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.607127, 0, 0, 0, 0.601116, 0, 0, 0, 1.26835, 0, 0.0787779, -0.000654334)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.182204, -0.000654334)
 offset = Vector2(0, 22)
 modulate = Color(0, 0.968393, 0, 1)
 pixel_size = 0.001
@@ -178,16 +180,18 @@ texture_filter = 0
 texture = ExtResource("2_mx1je")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.508661, 0, 0, 0, 0.508661, 0, 0, 0, 0.508661, 0, 0.0242834, -0.00015937)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.127709, -0.00015937)
 shape = SubResource("CylinderShape3D_uix6i")
 debug_fill = false
 
 [node name="FryingSound" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1.66667, 0, 0, 0, 1.66667, 0, 0, 0, 1.66667, 0, 0.0494613, 0)
 stream = ExtResource("7_rj2vr")
 volume_db = -30.0
 max_distance = 1.0
 
 [node name="WateredSound" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1.66667, 0, 0, 0, 1.66667, 0, 0, 0, 1.66667, 0, 0.0494613, 0)
 stream = ExtResource("8_6kgjx")
 volume_db = -5.0
 max_distance = 2.0

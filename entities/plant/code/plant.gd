@@ -59,6 +59,8 @@ func _process(delta: float) -> void:
 
 func process_plant_state(delta: float) -> void:
 	if plant_health <= 0:
+		is_burning = true
+		active_model.hide()
 		return
 	var low_water = water_level <= stats.water_low_threshold
 	var can_grow: bool

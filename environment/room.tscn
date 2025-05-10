@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bmm722h35elbx"]
+[gd_scene load_steps=37 format=3 uid="uid://bmm722h35elbx"]
 
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/player/player.tscn" id="1_aqwxi"]
 [ext_resource type="Material" uid="uid://d2ms68knptoyb" path="res://environment/art/stone.tres" id="1_qvg63"]
@@ -10,12 +10,15 @@
 [ext_resource type="Texture2D" uid="uid://bs1j52o3aat2v" path="res://environment/art/rusted_metal/rusty-metal_metallic.png" id="5_6sc3i"]
 [ext_resource type="Texture2D" uid="uid://cfhhslwhbdf2f" path="res://environment/art/decals/blood.png" id="5_80srb"]
 [ext_resource type="Texture2D" uid="uid://custk5w4epcl" path="res://environment/art/rusted_metal/rusty-metal_roughness.png" id="6_m685o"]
+[ext_resource type="Script" uid="uid://djjgr4b62e0ps" path="res://environment/code/darkness_area.gd" id="8_kr783"]
 [ext_resource type="AudioStream" uid="uid://brofyws4n60h8" path="res://environment/sound/windstorm.mp3" id="9_m685o"]
 [ext_resource type="AudioStream" uid="uid://ch0qntsxu5ufh" path="res://environment/sound/ambient.mp3" id="11_l8s2c"]
 [ext_resource type="Script" uid="uid://bnvdy3dq52a4h" path="res://environment/code/water_area.gd" id="12_6sc3i"]
 [ext_resource type="AudioStream" uid="uid://c3drg8wtifcmv" path="res://environment/sound/dripping.mp3" id="12_hqdl8"]
 [ext_resource type="PackedScene" uid="uid://b4nbgxvhffstv" path="res://entities/decorations/table/table.tscn" id="15_ipb84"]
 [ext_resource type="PackedScene" uid="uid://055cq1x7gheq" path="res://entities/plant/plant.tscn" id="16_2w8rd"]
+[ext_resource type="Resource" uid="uid://h4m1klyod23f" path="res://resources/cactus.tres" id="17_772mo"]
+[ext_resource type="Resource" uid="uid://cis0jfq44f6t4" path="res://resources/mushroom.tres" id="18_2qly3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_odrw7"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -73,6 +76,9 @@ density_texture = SubResource("NoiseTexture3D_aqwxi")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_aqwxi"]
 size = Vector3(1.8125, 0.727722, 6.12036)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vxtdk"]
+size = Vector3(1.35934, 1.93744, 1.30322)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m685o"]
 size = Vector3(1.56679, 2.37445, 1.47949)
@@ -185,6 +191,11 @@ transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -
 use_collision = true
 size = Vector3(2.10065, 0.331738, 5.02393)
 
+[node name="MushroomWall" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(4.37114e-08, 1, 4.37114e-08, 1, -4.37114e-08, 0, 1.02251e-15, 4.37114e-08, -1, -1.33673, 0.558287, -4.22412)
+use_collision = true
+size = Vector3(1.22926, 0.672787, 2.39807)
+
 [node name="Piece2" type="CSGBox3D" parent="Walls"]
 transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, 0, 3.1481, 0.993984, -5.04297)
 use_collision = true
@@ -223,17 +234,25 @@ transform = Transform3D(0.994249, -0.107097, 0, 0.107097, 0.994249, 0, 0, 0, 1, 
 radius = 0.0297852
 height = 0.76001
 
-[node name="LightShaft" type="FogVolume" parent="."]
+[node name="LightArea" type="FogVolume" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.959874, -0.280432, 0, 0.280432, 0.959874, 0.410473, 0.552584, -2.30587)
 size = Vector3(1.9129, 0.7603, 5.48573)
 material = SubResource("FogMaterial_odrw7")
 script = ExtResource("2_odrw7")
 
-[node name="Area3D" type="Area3D" parent="LightShaft"]
+[node name="Area3D" type="Area3D" parent="LightArea"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LightShaft/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LightArea/Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.003021, -0.0906978)
 shape = SubResource("BoxShape3D_aqwxi")
+
+[node name="DarknessArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.23177, 0, -4.06)
+script = ExtResource("8_kr783")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DarknessArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0524852, 0.989601, 0.152304)
+shape = SubResource("BoxShape3D_vxtdk")
 
 [node name="WaterArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.34804, 1.00406, 2.90191)
@@ -405,9 +424,21 @@ input_forward = "walk_forward"
 input_back = "walk_backward"
 
 [node name="Plant" parent="." instance=ExtResource("16_2w8rd")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 2.73448, 0.577665, 0.20663)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 2.7336, 0.577665, 0.199024)
+stats = ExtResource("17_772mo")
+plant_id = "cactus"
 
-[connection signal="area_entered" from="LightShaft/Area3D" to="LightShaft" method="_on_light_entered"]
-[connection signal="area_exited" from="LightShaft/Area3D" to="LightShaft" method="_on_light_exited"]
+[node name="Plant3" parent="." instance=ExtResource("16_2w8rd")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 3.05169, 0.577665, -0.0995115)
+stats = ExtResource("18_2qly3")
+plant_id = "mushroom"
+
+[node name="Plant2" parent="." instance=ExtResource("16_2w8rd")]
+transform = Transform3D(0.500421, 0, 0, 0, 0.500421, 0, 0, 0, 0.500421, 2.774, 0.577667, -0.417)
+
+[connection signal="area_entered" from="LightArea/Area3D" to="LightArea" method="_on_light_entered"]
+[connection signal="area_exited" from="LightArea/Area3D" to="LightArea" method="_on_light_exited"]
+[connection signal="area_entered" from="DarknessArea" to="DarknessArea" method="_on_plant_entered"]
+[connection signal="area_exited" from="DarknessArea" to="DarknessArea" method="_on_plant_exited"]
 [connection signal="area_entered" from="WaterArea" to="WaterArea" method="_on_plant_entered"]
 [connection signal="area_exited" from="WaterArea" to="WaterArea" method="_on_plant_exited"]

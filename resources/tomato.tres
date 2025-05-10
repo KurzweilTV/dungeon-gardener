@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_t82re")
+id = "tomato"
 growth_rate = 0.7
 shrink_rate = 0.25
 size_min = 1.0
@@ -17,9 +18,12 @@ drying_rate = 1.8
 sun_dry_penalty = 5.0
 sunlight_min = 0.0
 sunlight_max = 100.0
+sunlight_low_threshold = 30.0
+sunlight_hi_threshold = 90.0
 sunlight_gain_rate = 10.0
 sunlight_loss_rate = 4.0
 sunlight_grow_threshold = 35.0
+light_damage_rate = 7.5
 healthy_color = Color(0, 0.698039, 0, 1)
 unhealthy_color = Color(1, 0.294118, 0.0862745, 1)
 metadata/_custom_type_script = "uid://b7h3cf1032fq7"

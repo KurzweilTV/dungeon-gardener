@@ -4,10 +4,11 @@
 
 [resource]
 script = ExtResource("1_wkgbp")
-growth_rate = 0.6
+id = "cactus"
+growth_rate = 0.05
 shrink_rate = 0.35
-size_min = 1.0
-size_max = 5.5
+size_min = 0.07
+size_max = 0.32
 water_min = 0.0
 water_max = 100.0
 water_low_threshold = 5.0
@@ -22,6 +23,12 @@ sunlight_hi_threshold = 95.0
 sunlight_gain_rate = 10.0
 sunlight_loss_rate = 2.5
 sunlight_grow_threshold = 70.0
+light_damage_rate = 5.0
+needs_darkness = false
+darkness_grow_threshold = 0.7
+darkness_damage_threshold = 0.3
+darkness_gain_rate = 1.0
+darkness_loss_rate = 1.0
 healthy_color = Color(0, 0.698039, 0, 1)
 unhealthy_color = Color(1, 0.294118, 0.0862745, 1)
 metadata/_custom_type_script = "uid://b7h3cf1032fq7"

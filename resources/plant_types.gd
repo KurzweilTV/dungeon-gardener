@@ -2,6 +2,7 @@
 class_name PlantStats extends Resource
 
 @export_category("Growth")
+@export var id: String
 @export var growth_rate: float = 0.6
 @export var shrink_rate: float = 0.2
 @export var size_min: float = 1.0
@@ -24,6 +25,14 @@ class_name PlantStats extends Resource
 @export var sunlight_gain_rate: float = 8.0
 @export var sunlight_loss_rate: float = 4.0
 @export var sunlight_grow_threshold: float = 30.0
+@export var light_damage_rate: float = 5.0
+
+@export_category("Darkness")
+@export var needs_darkness: bool = false  # True for mushrooms, false for others
+@export var darkness_grow_threshold: float = 0.7  # How much darkness needed to grow
+@export var darkness_damage_threshold: float = 0.3  # At what light level plant takes damage
+@export var darkness_gain_rate: float = 1.0  # How quickly plant becomes shaded
+@export var darkness_loss_rate: float = 1.0  # How quickly plant loses shade
 
 @export_category("Visuals")
 @export var healthy_color: Color = Color("#00b200")

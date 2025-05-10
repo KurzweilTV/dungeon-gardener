@@ -79,8 +79,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14726, -0.289084, -0.372056
 
 [node name="Torch" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02232, 0)
-light_color = Color(0.791082, 0.439168, 0, 1)
+light_color = Color(0.720753, 0.488901, 0, 1)
+light_indirect_energy = 0.0
+light_volumetric_fog_energy = 0.0
 shadow_enabled = true
+omni_range = 10.0
 omni_attenuation = 2.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

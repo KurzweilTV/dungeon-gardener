@@ -109,6 +109,8 @@ func update_sounds() -> void:
 		watered_sound.stop()
 
 func update_water_level(delta: float) -> void:
+	if water_level >= stats.water_hi_threshold:
+		wet_particles.emitting = false
 	var dry_rate = stats.drying_rate
 	if is_in_sunlight:
 		dry_rate += stats.sun_dry_penalty
@@ -140,8 +142,11 @@ func set_burning(burning: bool) -> void:
 	burn_particles.emitting = burning
 
 func set_watered(watered: bool) -> void:
-	wet_particles.emitting = watered
 	is_being_watered = watered
+	if watered and water_level < stats.water_hi_threshold:
+		wet_particles.emitting = true
+	else:
+		wet_particles.emitting = false
 
 func set_in_sunlight(in_sun: bool) -> void:
 	is_in_sunlight = in_sun

@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://ciqr7gungb3ng"]
+
+[ext_resource type="FontFile" uid="uid://ueokaq6j8wft" path="res://ui/fonts/oswald.ttf" id="1_ws8mg"]
+
+[resource]
+font = ExtResource("1_ws8mg")
+font_size = 48

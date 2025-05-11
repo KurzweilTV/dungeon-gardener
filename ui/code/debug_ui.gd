@@ -9,6 +9,7 @@ func _process(_delta: float) -> void:
 	if !GameState.is_debug_ui:
 		visible = false
 		return
+	else: visible = true
 	
 	var player := get_tree().get_first_node_in_group("player") as Node
 	if !player or !player.has_method("get_target"):

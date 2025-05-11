@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ge7vvllhlrrr" path="res://addons/player/proto_controller.gd" id="1_ucva2"]
 [ext_resource type="PackedScene" uid="uid://055cq1x7gheq" path="res://entities/plant/plant.tscn" id="2_wr06p"]
-[ext_resource type="Script" uid="uid://bxx7tf8fg6e0c" path="res://addons/player/debug_ui.gd" id="3_7ek8b"]
+[ext_resource type="Script" uid="uid://bxx7tf8fg6e0c" path="res://ui/code/debug_ui.gd" id="3_7ek8b"]
 [ext_resource type="Texture2D" uid="uid://dmndrbgu0d734" path="res://addons/player/art/cursor.png" id="4_7ek8b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
@@ -88,8 +88,28 @@ omni_attenuation = 2.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="Cursor" type="TextureRect" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_7ek8b")
+stretch_mode = 3
+
 [node name="DebugUI" type="PanelContainer" parent="CanvasLayer"]
 unique_name_in_owner = true
+process_mode = 3
+visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -150,21 +170,3 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Is Fully Grown?"
 alignment = 1
-
-[node name="Cursor" type="TextureRect" parent="CanvasLayer"]
-texture_filter = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("4_7ek8b")
-stretch_mode = 3

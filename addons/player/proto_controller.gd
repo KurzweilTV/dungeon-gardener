@@ -3,6 +3,8 @@ extends CharacterBody3D
 @onready var cursor: TextureRect = $CanvasLayer/Cursor
 @onready var ray_cast_3d: RayCast3D = $Head/RayCast3D
 @onready var debug_ui: PanelContainer = %DebugUI
+@onready var canvas_layer: CanvasLayer = $CanvasLayer
+
 var target: Plant
 
 ## The object you want to place (set this in the editor to your Plant scene)
@@ -71,7 +73,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		capture_mouse()
 	if Input.is_key_pressed(KEY_ESCAPE):
+		var pause_menu = preload("res://ui/scenes/pause_menu.tscn").instantiate()
 		release_mouse()
+		canvas_layer.add_child(pause_menu)
+		pause_menu.connect("pause_closed", capture_mouse)
 	
 	# Look around
 	if mouse_captured and event is InputEventMouseMotion:

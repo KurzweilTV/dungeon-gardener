@@ -1,0 +1,224 @@
+[gd_scene load_steps=17 format=3 uid="uid://pupoq5bnkv25"]
+
+[ext_resource type="Script" uid="uid://dbdkgv0j57660" path="res://ui/code/pause_menu.gd" id="1_065a5"]
+[ext_resource type="LabelSettings" uid="uid://ciqr7gungb3ng" path="res://ui/fonts/H1_Label.tres" id="2_a4ou3"]
+[ext_resource type="LabelSettings" uid="uid://c3b230n2omsa1" path="res://ui/fonts/H2_Label.tres" id="3_vxtnq"]
+[ext_resource type="Texture2D" uid="uid://dueakif4gkjew" path="res://ui/icons/check_round_color.png" id="4_iqv7v"]
+[ext_resource type="StyleBox" uid="uid://blx1lbysw02c6" path="res://ui/themes/slider.tres" id="5_n76jq"]
+[ext_resource type="StyleBox" uid="uid://c3y4qogknyksw" path="res://ui/themes/slider_color.tres" id="6_et6pb"]
+[ext_resource type="StyleBox" uid="uid://c4d3l7vvfyc5d" path="res://ui/themes/slider_highlight.tres" id="7_dp52u"]
+[ext_resource type="Texture2D" uid="uid://hm7m5ilshen3" path="res://ui/icons/check_square_grey_checkmark.png" id="8_qumej"]
+[ext_resource type="Texture2D" uid="uid://d3lapu084jx3j" path="res://ui/icons/check_square_color.png" id="9_st0kk"]
+[ext_resource type="FontFile" uid="uid://ueokaq6j8wft" path="res://ui/fonts/oswald.ttf" id="10_2b5k4"]
+[ext_resource type="StyleBox" uid="uid://op1487dm8hgx" path="res://ui/themes/button_highlight.tres" id="11_shgh5"]
+[ext_resource type="StyleBox" uid="uid://cwbe80tu6qmea" path="res://ui/themes/button_pressed.tres" id="12_nh4bo"]
+[ext_resource type="StyleBox" uid="uid://b2ylw7gekohhr" path="res://ui/themes/button_normal.tres" id="13_qvm3n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ng6s"]
+bg_color = Color(0.190762, 0.190762, 0.190762, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.147672, 0.147672, 0.147672, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cqqbj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcwxl"]
+
+[node name="PauseMenu" type="PanelContainer"]
+process_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -580.0
+offset_top = -245.0
+offset_right = 580.0
+offset_bottom = 246.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_4ng6s")
+script = ExtResource("1_065a5")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Paused"
+label_settings = ExtResource("2_a4ou3")
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MainVol" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/MainVol"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "Main Volume"
+label_settings = ExtResource("3_vxtnq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/MainVol"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="MainVol" type="HSlider" parent="MarginContainer/VBoxContainer/MainVol"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/center_grabber = 1
+theme_override_icons/grabber = ExtResource("4_iqv7v")
+theme_override_icons/grabber_highlight = ExtResource("4_iqv7v")
+theme_override_styles/slider = ExtResource("5_n76jq")
+theme_override_styles/grabber_area = ExtResource("6_et6pb")
+theme_override_styles/grabber_area_highlight = ExtResource("7_dp52u")
+value = 44.0
+
+[node name="SFXVol" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/SFXVol"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "SFX Volume"
+label_settings = ExtResource("3_vxtnq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/SFXVol"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="SFXVol" type="HSlider" parent="MarginContainer/VBoxContainer/SFXVol"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/center_grabber = 1
+theme_override_icons/grabber = ExtResource("4_iqv7v")
+theme_override_icons/grabber_highlight = ExtResource("4_iqv7v")
+theme_override_styles/slider = ExtResource("5_n76jq")
+theme_override_styles/grabber_area = ExtResource("6_et6pb")
+theme_override_styles/grabber_area_highlight = ExtResource("7_dp52u")
+value = 44.0
+
+[node name="AmbVol" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/AmbVol"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "Ambient Volume"
+label_settings = ExtResource("3_vxtnq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/AmbVol"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="AmbVol" type="HSlider" parent="MarginContainer/VBoxContainer/AmbVol"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/center_grabber = 1
+theme_override_icons/grabber = ExtResource("4_iqv7v")
+theme_override_icons/grabber_highlight = ExtResource("4_iqv7v")
+theme_override_styles/slider = ExtResource("5_n76jq")
+theme_override_styles/grabber_area = ExtResource("6_et6pb")
+theme_override_styles/grabber_area_highlight = ExtResource("7_dp52u")
+value = 44.0
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="UIMode" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/UIMode"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "Enable UI Mode"
+label_settings = ExtResource("3_vxtnq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/UIMode"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="UIMode" type="CheckButton" parent="MarginContainer/VBoxContainer/UIMode"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cqqbj")
+theme_override_icons/checked = ExtResource("8_qumej")
+theme_override_icons/unchecked = ExtResource("9_st0kk")
+
+[node name="VSeparator2" type="VSeparator" parent="MarginContainer/VBoxContainer/UIMode"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/UIMode"]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "UI is off by default due to the [b][color=orange]minimal UI[/color][/b] modifier, but you can choose to enable it here if you wish"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="HSeparator4" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Spacer2" type="Control" parent="MarginContainer/VBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Resume" type="Button" parent="MarginContainer/VBoxContainer/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("10_2b5k4")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rcwxl")
+theme_override_styles/hover = ExtResource("11_shgh5")
+theme_override_styles/pressed = ExtResource("12_nh4bo")
+theme_override_styles/normal = ExtResource("13_qvm3n")
+text = "RESUME"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="toggled" from="MarginContainer/VBoxContainer/UIMode/UIMode" to="." method="_on_ui_mode_toggled"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/Resume" to="." method="_on_resume_pressed"]

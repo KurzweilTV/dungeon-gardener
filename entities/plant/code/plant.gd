@@ -36,6 +36,12 @@ var darkness_level: float = 0.0
 var plant_models: Dictionary
 var active_model: Node3D
 
+# Particle intent states (all are set by logic, then _process_particles manages the emitters)
+var should_emit_wet_particles: bool = false
+var should_emit_dry_particles: bool = false
+var should_emit_burn_particles: bool = false
+var should_emit_death_particles: bool = false
+
 func _ready() -> void:
 	plant_models = {
 		"tomato": tomato,
@@ -59,6 +65,7 @@ func _process(delta: float) -> void:
 	update_sunlight_exposure(delta)
 	process_plant_state(delta)
 	update_soil_visuals()
+	_process_particles()
 
 func process_plant_state(delta: float) -> void:
 	if plant_health <= 0 and !plant_dead:
@@ -94,6 +101,24 @@ func set_growth_amount(delta: float) -> void:
 	if new_scale >= stats.size_max and not is_max_growth:
 		set_max_growth()
 
+func _process_particles() -> void:
+	# Wet/Watering particles
+	should_emit_wet_particles = is_being_watered and water_level < stats.water_hi_threshold
+
+	# Burn/Fire particles
+	should_emit_burn_particles = is_burning
+
+	# Death particles
+	should_emit_death_particles = plant_dead
+	
+	# Dry/Soil particles (customize logic as needed for dry effect)
+	should_emit_dry_particles = (not is_being_watered and water_level <= stats.water_low_threshold)
+
+	wet_particles.emitting = should_emit_wet_particles
+	burn_particles.emitting = should_emit_burn_particles
+	death_particles.emitting = should_emit_death_particles
+	dry_particles.emitting = should_emit_dry_particles
+
 func update_sounds() -> void:
 	if is_burning:
 		pass
@@ -106,8 +131,6 @@ func update_sounds() -> void:
 		watered_sound.stop()
 
 func update_water_level(delta: float) -> void:
-	if water_level >= stats.water_hi_threshold:
-		wet_particles.emitting = false
 	var dry_rate = stats.drying_rate
 	if is_in_sunlight:
 		dry_rate += stats.sun_dry_penalty
@@ -134,17 +157,9 @@ func update_soil_visuals() -> void:
 
 func set_burning(burning: bool) -> void:
 	is_burning = burning
-	burn_particles.emitting = burning
 
 func set_watered(watered: bool) -> void:
 	is_being_watered = watered
-	if water_level <= stats.water_low_threshold and !dry_particles.emitting:
-		dry_particles.emitting = true
-	else: dry_particles.emitting = false
-	if watered and water_level < stats.water_hi_threshold:
-		wet_particles.emitting = true
-	else:
-		wet_particles.emitting = false
 
 func set_in_sunlight(in_sun: bool) -> void:
 	is_in_sunlight = in_sun
@@ -162,9 +177,5 @@ func plant_die() -> void:
 	var things = [pot, tomato, cactus, mushroom]
 	for thing in things:
 		thing.hide()
-	burn_particles.emitting = false
-	death_particles.emitting = true
 	await get_tree().create_timer(3).timeout
 	queue_free()
-	
-	

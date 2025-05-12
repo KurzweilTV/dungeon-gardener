@@ -14,7 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://brofyws4n60h8" path="res://environment/sound/windstorm.mp3" id="9_m685o"]
 [ext_resource type="AudioStream" uid="uid://ch0qntsxu5ufh" path="res://environment/sound/ambient.mp3" id="11_l8s2c"]
 [ext_resource type="Script" uid="uid://bnvdy3dq52a4h" path="res://environment/code/water_area.gd" id="12_6sc3i"]
-[ext_resource type="AudioStream" uid="uid://c3drg8wtifcmv" path="res://environment/sound/dripping.mp3" id="12_hqdl8"]
+[ext_resource type="AudioStream" uid="uid://brrj0umywmfme" path="res://environment/sound/dripping.ogg" id="12_vxtdk"]
 [ext_resource type="PackedScene" uid="uid://b4nbgxvhffstv" path="res://entities/decorations/table/table.tscn" id="15_ipb84"]
 [ext_resource type="PackedScene" uid="uid://055cq1x7gheq" path="res://entities/plant/plant.tscn" id="16_2w8rd"]
 [ext_resource type="Texture2D" uid="uid://b2fle3ymkpwlm" path="res://environment/art/stone/sloppy-mortar-stone-wall_metallic.png" id="16_vxtdk"]
@@ -289,7 +289,7 @@ panning_strength = 0.5
 
 [node name="Watersounds" type="AudioStreamPlayer3D" parent="Sounds"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08256, -1.17075, 3.3183)
-stream = ExtResource("12_hqdl8")
+stream = ExtResource("12_vxtdk")
 volume_db = -10.0
 autoplay = true
 max_distance = 20.0

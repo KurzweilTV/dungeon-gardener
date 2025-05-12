@@ -8,16 +8,19 @@ signal plant_grown
 @export var stats: PlantStats
 @export var plant_health: float = 50
 @export var plant_id: String = "tomato" # "cactus", "tomato"
+@export var plant_dead: bool = false
 
 @onready var pot: MeshInstance3D = %Pot
 @onready var cactus: MeshInstance3D = %Cactus
 @onready var tomato: MeshInstance3D = %Tomato
 @onready var mushroom: MeshInstance3D = %Mushroom
 
+@onready var death_particles: GPUParticles3D = %DeathParticles
 @onready var wet_particles: GPUParticles3D = %WaterParticles
 @onready var dry_particles: GPUParticles3D = %DryParticles
 @onready var burn_particles: GPUParticles3D = %BurnParticles
 @onready var watered_sound: AudioStreamPlayer3D = $WateredSound
+@onready var death_sound: AudioStreamPlayer3D = %DeathSound
 
 # State variables
 var growth_amount: float = 0
@@ -58,10 +61,8 @@ func _process(delta: float) -> void:
 	update_soil_visuals()
 
 func process_plant_state(delta: float) -> void:
-	if plant_health <= 0:
-		is_burning = true
-		active_model.hide()
-		return
+	if plant_health <= 0 and !plant_dead:
+		plant_die()
 	var low_water = water_level <= stats.water_low_threshold
 	var can_grow: bool
 	
@@ -137,6 +138,9 @@ func set_burning(burning: bool) -> void:
 
 func set_watered(watered: bool) -> void:
 	is_being_watered = watered
+	if water_level <= stats.water_low_threshold and !dry_particles.emitting:
+		dry_particles.emitting = true
+	else: dry_particles.emitting = false
 	if watered and water_level < stats.water_hi_threshold:
 		wet_particles.emitting = true
 	else:
@@ -151,3 +155,16 @@ func set_in_darkness(in_dark: bool) -> void:
 func set_max_growth() -> void:
 	is_max_growth = true
 	emit_signal("plant_grown")
+
+func plant_die() -> void:
+	plant_dead = true
+	death_sound.play()
+	var things = [pot, tomato, cactus, mushroom]
+	for thing in things:
+		thing.hide()
+	burn_particles.emitting = false
+	death_particles.emitting = true
+	await get_tree().create_timer(3).timeout
+	queue_free()
+	
+	

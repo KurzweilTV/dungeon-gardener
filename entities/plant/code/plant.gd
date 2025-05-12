@@ -66,19 +66,15 @@ func process_plant_state(delta: float) -> void:
 	var can_grow: bool
 	
 	if stats.needs_darkness:
-		# Darkness-loving plants (mushrooms) - need darkness to grow
 		can_grow = (is_in_darkness and darkness_level > stats.darkness_grow_threshold and 
 				   not low_water and not is_max_growth)
 		
-		# Take additional damage if in too much light (on top of burning)
 		if sunlight_exposure > stats.darkness_damage_threshold:
 			plant_health -= delta * stats.light_damage_rate
 	else:
-		# Sun-loving plants (tomato, cactus) - need sunlight to grow
 		can_grow = (sunlight_exposure > stats.sunlight_grow_threshold and 
 				   not low_water and not is_max_growth)
 	
-	# UNIVERSAL BURNING MECHANIC - affects all plants
 	var should_burn = sunlight_exposure > stats.sunlight_hi_threshold
 	if is_burning != should_burn:
 		set_burning(should_burn)
@@ -122,13 +118,11 @@ func update_water_level(delta: float) -> void:
 
 func update_sunlight_exposure(delta: float) -> void:
 	if is_in_sunlight:
-		sunlight_exposure = clamp(sunlight_exposure + delta * stats.sunlight_gain_rate, 
-								stats.sunlight_min, stats.sunlight_max)
+		sunlight_exposure = clamp(sunlight_exposure + delta * stats.sunlight_gain_rate, stats.sunlight_min, stats.sunlight_max)
 		if stats.needs_darkness:
 			darkness_level = clamp(darkness_level - delta * stats.darkness_loss_rate, 0, 1)
 	else:
-		sunlight_exposure = clamp(sunlight_exposure - delta * stats.sunlight_loss_rate, 
-								stats.sunlight_min, stats.sunlight_max)
+		sunlight_exposure = clamp(sunlight_exposure - delta * stats.sunlight_loss_rate, stats.sunlight_min, stats.sunlight_max)
 		if stats.needs_darkness:
 			darkness_level = clamp(darkness_level + delta * stats.darkness_gain_rate, 0, 1)
 

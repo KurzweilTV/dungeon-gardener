@@ -8,16 +8,21 @@ signal plant_grown
 @export var stats: PlantStats
 @export var plant_health: float = 50
 @export var plant_id: String = "tomato" # "cactus", "tomato"
-@export var plant_dead: bool = false
+@export var is_dead: bool = false:
+	set(value):
+		is_dead = value
+		plant_die()
 
 @onready var pot: MeshInstance3D = %Pot
 @onready var cactus: MeshInstance3D = %Cactus
 @onready var tomato: MeshInstance3D = %Tomato
 @onready var mushroom: MeshInstance3D = %Mushroom
 
+@onready var good_particles: GPUParticles3D = %GoodParticles
 @onready var death_particles: GPUParticles3D = %DeathParticles
 @onready var wet_particles: GPUParticles3D = %WaterParticles
 @onready var dry_particles: GPUParticles3D = %DryParticles
+@onready var shade_particles: GPUParticles3D = %NeedSunParticles
 @onready var burn_particles: GPUParticles3D = %BurnParticles
 @onready var watered_sound: AudioStreamPlayer3D = $WateredSound
 @onready var death_sound: AudioStreamPlayer3D = %DeathSound
@@ -30,17 +35,19 @@ var is_being_watered: bool = false
 var sunlight_exposure: float = 0
 var is_burning: bool
 var is_in_sunlight: bool = false
-var is_in_darkness: bool = false # reserved for mushroom
+var is_in_darkness: bool = false # for the shroom
 var darkness_level: float = 0.0
 
 var plant_models: Dictionary
 var active_model: Node3D
 
-# Particle intent states (all are set by logic, then _process_particles manages the emitters)
+var should_emit_good_particles: bool = false
 var should_emit_wet_particles: bool = false
 var should_emit_dry_particles: bool = false
+var should_emit_shade_particles: bool = false
 var should_emit_burn_particles: bool = false
 var should_emit_death_particles: bool = false
+
 
 func _ready() -> void:
 	plant_models = {
@@ -68,8 +75,7 @@ func _process(delta: float) -> void:
 	_process_particles()
 
 func process_plant_state(delta: float) -> void:
-	if plant_health <= 0 and !plant_dead:
-		plant_die()
+	if is_dead: return
 	var low_water = water_level <= stats.water_low_threshold
 	var can_grow: bool
 	
@@ -79,6 +85,7 @@ func process_plant_state(delta: float) -> void:
 		
 		if sunlight_exposure > stats.darkness_damage_threshold:
 			plant_health -= delta * stats.light_damage_rate
+			if plant_health <= 0: is_dead = true
 	else:
 		can_grow = (sunlight_exposure > stats.sunlight_grow_threshold and 
 				   not low_water and not is_max_growth)
@@ -102,22 +109,27 @@ func set_growth_amount(delta: float) -> void:
 		set_max_growth()
 
 func _process_particles() -> void:
-	# Wet/Watering particles
+	var all_particles = [wet_particles, burn_particles, dry_particles, shade_particles]
+	if is_max_growth or is_dead:
+		for particle: GPUParticles3D in all_particles:
+			particle.emitting = false
+		return
+
 	should_emit_wet_particles = is_being_watered and water_level < stats.water_hi_threshold
 
-	# Burn/Fire particles
 	should_emit_burn_particles = is_burning
-
-	# Death particles
-	should_emit_death_particles = plant_dead
 	
-	# Dry/Soil particles (customize logic as needed for dry effect)
 	should_emit_dry_particles = (not is_being_watered and water_level <= stats.water_low_threshold)
+	
+	should_emit_shade_particles = (sunlight_exposure < stats.sunlight_low_threshold)
+	
+	should_emit_good_particles = (not should_emit_burn_particles and not should_emit_dry_particles and not should_emit_shade_particles)
 
 	wet_particles.emitting = should_emit_wet_particles
-	burn_particles.emitting = should_emit_burn_particles
-	death_particles.emitting = should_emit_death_particles
 	dry_particles.emitting = should_emit_dry_particles
+	burn_particles.emitting = should_emit_burn_particles
+	shade_particles.emitting = should_emit_shade_particles
+	good_particles.emitting = should_emit_good_particles
 
 func update_sounds() -> void:
 	if is_burning:
@@ -172,10 +184,12 @@ func set_max_growth() -> void:
 	emit_signal("plant_grown")
 
 func plant_die() -> void:
-	plant_dead = true
+	death_particles.emitting = true
 	death_sound.play()
+
 	var things = [pot, tomato, cactus, mushroom]
-	for thing in things:
+	for thing: MeshInstance3D in things:
 		thing.hide()
-	await get_tree().create_timer(3).timeout
+		
+	await get_tree().create_timer(5).timeout
 	queue_free()

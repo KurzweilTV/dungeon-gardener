@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://055cq1x7gheq"]
+[gd_scene load_steps=45 format=3 uid="uid://055cq1x7gheq"]
 
 [ext_resource type="Script" uid="uid://c5syu518p1yxx" path="res://entities/plant/code/plant.gd" id="1_uix6i"]
 [ext_resource type="Resource" uid="uid://dxw1xu3acwuht" path="res://resources/tomato.tres" id="2_hrmtl"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cc2viouel6rcg" path="res://entities/plant/art/dry-dirt1-normal2.png" id="4_rj2vr"]
 [ext_resource type="Texture2D" uid="uid://u77fcft1ntod" path="res://entities/plant/art/dry-dirt1-roughness.png" id="5_6kgjx"]
 [ext_resource type="Texture2D" uid="uid://cnem6wwq3a8w" path="res://entities/plant/art/blackSmoke00.png" id="6_k0luw"]
+[ext_resource type="Texture2D" uid="uid://4m6jmtjddsjj" path="res://entities/plant/art/hp_up.png" id="7_pv1ey"]
 [ext_resource type="AudioStream" uid="uid://d2tabt27g0sma" path="res://environment/sound/dirt_pour.ogg" id="8_6kgjx"]
 [ext_resource type="Texture2D" uid="uid://cr6lo5817iwgq" path="res://entities/tomato_plant/tomato albedo2.png" id="8_7vbvo"]
 [ext_resource type="Texture2D" uid="uid://dq8d50xsea77o" path="res://entities/tomato_plant/tomato albedo2_NRM.jpg" id="9_2e78q"]
@@ -56,8 +57,8 @@ height = 0.006
 radial_segments = 8
 rings = 4
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rj2vr"]
-albedo_color = Color(0.690557, 0, 0.29972, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e6y37"]
+albedo_color = Color(0, 0.678431, 1, 1)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6kgjx"]
 emission_shape_scale = Vector3(0.15, 0.15, 0.15)
@@ -69,6 +70,45 @@ scale_max = 1.5
 
 [sub_resource type="BoxMesh" id="BoxMesh_k0luw"]
 size = Vector3(0.005, 0.005, 0.005)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_123ju"]
+emission_shape_scale = Vector3(0.15, 0.15, 0.15)
+emission_shape = 1
+emission_sphere_radius = 2.0
+gravity = Vector3(0, 0.03, 0)
+scale_min = 0.01
+scale_max = 0.03
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ca1j8"]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("7_pv1ey")
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_kmk7l"]
+material = SubResource("StandardMaterial3D_ca1j8")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rj2vr"]
+albedo_color = Color(0.690196, 1, 0.298039, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kxu7b"]
+emission_shape_scale = Vector3(0.15, 0.15, 0.15)
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector3(0, 0.03, 0)
+scale_min = 0.5
+scale_max = 1.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_e6y37"]
+radius = 0.005
+height = 0.01
+radial_segments = 16
+rings = 8
 
 [sub_resource type="Image" id="Image_e6y37"]
 data = {
@@ -149,10 +189,10 @@ angle_max = 360.0
 direction = Vector3(1, -1, 0)
 spread = 180.0
 initial_velocity_min = 0.5
-initial_velocity_max = 1.0
+initial_velocity_max = 0.7
 gravity = Vector3(0, 0.1, 0)
 damping_min = 0.1
-damping_max = 0.4
+damping_max = 0.1
 scale_min = 0.5
 scale_max = 1.5
 
@@ -183,12 +223,29 @@ draw_pass_1 = SubResource("SphereMesh_6kgjx")
 [node name="DryParticles" type="GPUParticles3D" parent="Pot"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123589, 0)
-material_override = SubResource("StandardMaterial3D_rj2vr")
-emitting = false
-amount = 20
+material_override = SubResource("StandardMaterial3D_e6y37")
+amount = 10
 randomness = 0.5
 process_material = SubResource("ParticleProcessMaterial_6kgjx")
 draw_pass_1 = SubResource("BoxMesh_k0luw")
+
+[node name="GoodParticles" type="GPUParticles3D" parent="Pot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123589, 0)
+cast_shadow = 0
+amount = 10
+draw_order = 3
+process_material = SubResource("ParticleProcessMaterial_123ju")
+draw_pass_1 = SubResource("QuadMesh_kmk7l")
+
+[node name="NeedSunParticles" type="GPUParticles3D" parent="Pot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.123589, 0)
+material_override = SubResource("StandardMaterial3D_rj2vr")
+amount = 10
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_kxu7b")
+draw_pass_1 = SubResource("SphereMesh_e6y37")
 
 [node name="BurnParticles" type="GPUParticles3D" parent="Pot"]
 unique_name_in_owner = true
@@ -239,7 +296,8 @@ debug_color = Color(0.649057, 0.520339, 3.85046e-07, 0.42)
 unique_name_in_owner = true
 transform = Transform3D(1.99832, 0, 0, 0, 1.99832, 0, 0, 0, 1.99832, 0, 0.38746, 0)
 stream = ExtResource("18_e6y37")
-pitch_scale = 0.8
+volume_db = -5.0
+pitch_scale = 0.5
 max_distance = 10.0
 bus = &"SFX"
 
@@ -256,7 +314,6 @@ emitting = false
 amount = 500
 lifetime = 4.0
 one_shot = true
-explosiveness = 0.95
-randomness = 0.5
+explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_e6y37")
 draw_pass_1 = SubResource("QuadMesh_7dkou")

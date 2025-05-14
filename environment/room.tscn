@@ -79,7 +79,7 @@ density_texture = SubResource("NoiseTexture3D_aqwxi")
 size = Vector3(1.8125, 0.727722, 6.12036)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vxtdk"]
-size = Vector3(1.18858, 1.50864, 1.30322)
+size = Vector3(1.4595, 1.67855, 1.53247)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m685o"]
 size = Vector3(1.56679, 2.37445, 1.47949)
@@ -254,10 +254,13 @@ shape = SubResource("BoxShape3D_aqwxi")
 
 [node name="DarknessArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.23177, 0, -4.06)
+audio_bus_override = true
+audio_bus_name = &"SFXDry"
+reverb_bus_name = &"SFX"
 script = ExtResource("8_kr783")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DarknessArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0328941, 0.775199, 0.152304)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065866, 0.829807, 0.266929)
 shape = SubResource("BoxShape3D_vxtdk")
 
 [node name="WaterArea" type="Area3D" parent="."]
@@ -276,7 +279,7 @@ stream = ExtResource("11_l8s2c")
 volume_db = -5.0
 pitch_scale = 0.6
 autoplay = true
-mix_target = 2
+bus = &"Ambient"
 
 [node name="OutdoorWind" type="AudioStreamPlayer3D" parent="Sounds"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.525837, 0, -5.95296)
@@ -286,6 +289,7 @@ pitch_scale = 0.8
 autoplay = true
 max_distance = 10.0
 panning_strength = 0.5
+bus = &"Ambient"
 
 [node name="Watersounds" type="AudioStreamPlayer3D" parent="Sounds"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08256, -1.17075, 3.3183)
@@ -293,6 +297,7 @@ stream = ExtResource("12_vxtdk")
 volume_db = -10.0
 autoplay = true
 max_distance = 20.0
+bus = &"SFX"
 parameters/looping = true
 
 [node name="Furniture" type="Node3D" parent="."]
@@ -449,7 +454,6 @@ draw_pass_1 = SubResource("BoxMesh_772mo")
 
 [node name="Player" parent="." instance=ExtResource("1_aqwxi")]
 transform = Transform3D(0.838642, 0, 0.544683, 0, 1, 0, -0.544683, 0, 0.838642, 2.88579, -0.0633421, 3.40738)
-can_sprint = true
 look_speed = 0.001
 base_speed = 0.8
 jump_velocity = 2.5

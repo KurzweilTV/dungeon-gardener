@@ -4,6 +4,8 @@ extends CharacterBody3D
 @onready var ray_cast_3d: RayCast3D = $Head/RayCast3D
 @onready var debug_ui: PanelContainer = %DebugUI
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
+@onready var footsteps: AudioStreamPlayer3D = $Footsteps
+@onready var anim: AnimationPlayer = $Anim
 
 var target: Plant
 
@@ -121,6 +123,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = 0
 		velocity.y = 0
 	
+	update_movement_animation()
 	# Use velocity to actually move
 	move_and_slide()
 
@@ -167,3 +170,25 @@ func place_held_object():
 		plant.global_position = point
 		plant.global_rotation = Vector3.ZERO  # Stand up straight!
 		plant.scale = Vector3.ONE * 0.5
+
+func play_footstep() -> void:
+	var footstep_sounds : Array = [
+		"res://addons/player/sounds/footstep01.ogg",
+		"res://addons/player/sounds/footstep02.ogg",
+		"res://addons/player/sounds/footstep03.ogg",]
+	var random_sound = footstep_sounds[randi() % footstep_sounds.size()]
+	var sound = load(random_sound)
+	footsteps.pitch_scale = randf_range(0.9, 1.1)
+	footsteps.stream = sound
+	footsteps.play()
+	
+func update_movement_animation():
+	var is_moving = (abs(velocity.x) > 0.1 || abs(velocity.z) > 0.1) and is_on_floor()
+	if is_moving:
+		if anim.current_animation != "walk" or !anim.is_playing():
+			anim.play("walk")
+		anim.speed_scale = move_speed / base_speed
+	else:
+		if anim.current_animation == "walk" and anim.is_playing():
+			anim.stop()
+	

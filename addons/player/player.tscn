@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bs72ogkvdd7d6"]
+[gd_scene load_steps=15 format=3 uid="uid://bs72ogkvdd7d6"]
 
 [ext_resource type="Script" uid="uid://ge7vvllhlrrr" path="res://addons/player/proto_controller.gd" id="1_ucva2"]
 [ext_resource type="PackedScene" uid="uid://055cq1x7gheq" path="res://entities/plant/plant.tscn" id="2_wr06p"]
@@ -49,9 +49,61 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="Animation" id="Animation_6oqec"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Hand:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-0.289084, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_7ek8b"]
+resource_name = "walk"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Hand:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-0.289084, -0.25, 0, 0.25, 0, -0.294881, -0.25, 0, 0.25, 0, -0.289084, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.25, 0.5)
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_footstep"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eon52"]
+_data = {
+&"RESET": SubResource("Animation_6oqec"),
+&"walk": SubResource("Animation_7ek8b")
+}
+
 [node name="ProtoController" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_ucva2")
 placeable_scene = ExtResource("2_wr06p")
+can_sprint = true
+sprint_speed = 12.0
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.454795, 0)
@@ -170,3 +222,17 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Is Fully Grown?"
 alignment = 1
+
+[node name="Footsteps" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.208844, 0)
+volume_db = -32.0
+max_db = -5.0
+max_distance = 1.5
+bus = &"SFX"
+attenuation_filter_cutoff_hz = 1200.0
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_eon52")
+}
+speed_scale = 0.7

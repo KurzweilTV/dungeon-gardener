@@ -18,6 +18,7 @@ signal plant_grown
 @onready var tomato: MeshInstance3D = %Tomato
 @onready var mushroom: MeshInstance3D = %Mushroom
 
+@onready var full_grown_particles: GPUParticles3D = %FullGrownParticles
 @onready var good_particles: GPUParticles3D = %GoodParticles
 @onready var death_particles: GPUParticles3D = %DeathParticles
 @onready var wet_particles: GPUParticles3D = %WaterParticles
@@ -47,6 +48,7 @@ var should_emit_dry_particles: bool = false
 var should_emit_shade_particles: bool = false
 var should_emit_burn_particles: bool = false
 var should_emit_death_particles: bool = false
+var should_emit_full_grown_particles: bool = false
 
 
 func _ready() -> void:
@@ -123,7 +125,7 @@ func _process_particles() -> void:
 	
 	should_emit_shade_particles = (sunlight_exposure < stats.sunlight_low_threshold)
 	
-	should_emit_good_particles = (not should_emit_burn_particles and not should_emit_dry_particles and not should_emit_shade_particles)
+	should_emit_good_particles = (not should_emit_burn_particles and not should_emit_dry_particles and not should_emit_shade_particles and not is_max_growth)
 
 	wet_particles.emitting = should_emit_wet_particles
 	dry_particles.emitting = should_emit_dry_particles
@@ -181,6 +183,7 @@ func set_in_darkness(in_dark: bool) -> void:
 
 func set_max_growth() -> void:
 	is_max_growth = true
+	full_grown_particles.emitting = true
 	emit_signal("plant_grown")
 
 func plant_die() -> void:

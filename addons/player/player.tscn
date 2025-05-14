@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bs72ogkvdd7d6"]
+[gd_scene load_steps=16 format=3 uid="uid://bs72ogkvdd7d6"]
 
 [ext_resource type="Script" uid="uid://ge7vvllhlrrr" path="res://addons/player/proto_controller.gd" id="1_ucva2"]
 [ext_resource type="PackedScene" uid="uid://055cq1x7gheq" path="res://entities/plant/plant.tscn" id="2_wr06p"]
@@ -44,6 +44,13 @@ corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhe1f"]
 bg_color = Color(0.225422, 0.610541, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ek8b"]
+bg_color = Color(0.681371, 0.000391688, 0.691765, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -161,7 +168,6 @@ stretch_mode = 3
 [node name="DebugUI" type="PanelContainer" parent="CanvasLayer"]
 unique_name_in_owner = true
 process_mode = 3
-visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -215,6 +221,17 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_uhe1f")
+value = 50.0
+
+[node name="Label4" type="Label" parent="CanvasLayer/DebugUI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Darkness"
+horizontal_alignment = 1
+
+[node name="DarknessBar" type="ProgressBar" parent="CanvasLayer/DebugUI/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_7ek8b")
 value = 50.0
 
 [node name="CheckBox" type="CheckBox" parent="CanvasLayer/DebugUI/MarginContainer/VBoxContainer"]

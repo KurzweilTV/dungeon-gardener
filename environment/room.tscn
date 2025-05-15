@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bmm722h35elbx"]
+[gd_scene load_steps=37 format=3 uid="uid://bmm722h35elbx"]
 
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/player/player.tscn" id="1_aqwxi"]
 [ext_resource type="Material" uid="uid://d2ms68knptoyb" path="res://environment/art/stone.tres" id="1_qvg63"]
@@ -16,10 +16,8 @@
 [ext_resource type="Script" uid="uid://bnvdy3dq52a4h" path="res://environment/code/water_area.gd" id="12_6sc3i"]
 [ext_resource type="AudioStream" uid="uid://brrj0umywmfme" path="res://environment/sound/dripping.ogg" id="12_vxtdk"]
 [ext_resource type="PackedScene" uid="uid://b4nbgxvhffstv" path="res://entities/decorations/table/table.tscn" id="15_ipb84"]
-[ext_resource type="PackedScene" uid="uid://055cq1x7gheq" path="res://entities/plant/plant.tscn" id="16_2w8rd"]
 [ext_resource type="Texture2D" uid="uid://b2fle3ymkpwlm" path="res://environment/art/stone/sloppy-mortar-stone-wall_metallic.png" id="16_vxtdk"]
-[ext_resource type="Resource" uid="uid://h4m1klyod23f" path="res://resources/cactus.tres" id="17_772mo"]
-[ext_resource type="Resource" uid="uid://cis0jfq44f6t4" path="res://resources/mushroom.tres" id="18_2qly3"]
+[ext_resource type="Script" uid="uid://beocywiv08lv0" path="res://environment/code/plant_spawn.gd" id="18_2qly3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_odrw7"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -80,6 +78,10 @@ size = Vector3(1.8125, 0.727722, 6.12036)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vxtdk"]
 size = Vector3(1.4595, 1.67855, 1.53247)
+
+[sub_resource type="FogMaterial" id="FogMaterial_vxtdk"]
+density = 1.256
+albedo = Color(0, 0, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m685o"]
 size = Vector3(1.56679, 2.37445, 1.47949)
@@ -167,10 +169,9 @@ use_collision = true
 size = Vector3(10, 0.1, 10)
 
 [node name="Cieling" type="CSGBox3D" parent="Walls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.135025, 2.15631, -0.155762)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.135025, 4.70351, -0.155762)
 use_collision = true
-size = Vector3(10.8746, 0.530475, 10.3115)
-metadata/_edit_lock_ = true
+size = Vector3(10.8746, 5.62487, 10.3115)
 
 [node name="Wall1" type="CSGBox3D" parent="Walls"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -4.55805, 1.00156, -0.112284)
@@ -222,6 +223,11 @@ transform = Transform3D(-8.88178e-16, 0, -1, 1, -4.37114e-08, 0, -4.37114e-08, -
 use_collision = true
 size = Vector3(0.187138, 0.328198, 1.9982)
 
+[node name="SpawnHole" type="CSGBox3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.08782, 3.74278, 3.22826)
+operation = 2
+size = Vector3(0.701111, 3.77795, 1.26965)
+
 [node name="Metal" type="CSGCombiner3D" parent="."]
 material_override = SubResource("StandardMaterial3D_ipb84")
 
@@ -231,12 +237,12 @@ radius = 0.0297852
 height = 0.825439
 
 [node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Metal"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45838, 1.40465, -5.01985)
+transform = Transform3D(0.989609, -0.143786, 0, 0.143786, 0.989609, 0, 0, 0, 1, 0.45838, 1.40465, -5.01985)
 radius = 0.0297852
 height = 0.734863
 
 [node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Metal"]
-transform = Transform3D(0.994249, -0.107097, 0, 0.107097, 0.994249, 0, 0, 0, 1, 0.979305, 1.41715, -5.01985)
+transform = Transform3D(0.9868, 0.161948, 0, -0.161948, 0.9868, 0, 0, 0, 1, 0.979305, 1.41715, -5.01985)
 radius = 0.0297852
 height = 0.76001
 
@@ -262,6 +268,11 @@ script = ExtResource("8_kr783")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DarknessArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065866, 0.829807, 0.266929)
 shape = SubResource("BoxShape3D_vxtdk")
+
+[node name="SpawnAreaFog" type="FogVolume" parent="DarknessArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.34529, 3.86741, 7.23842)
+size = Vector3(1.32654, 4.29532, 2)
+material = SubResource("FogMaterial_vxtdk")
 
 [node name="WaterArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.34804, 1.00406, 2.90191)
@@ -453,7 +464,7 @@ process_material = SubResource("ParticleProcessMaterial_m685o")
 draw_pass_1 = SubResource("BoxMesh_772mo")
 
 [node name="Player" parent="." instance=ExtResource("1_aqwxi")]
-transform = Transform3D(0.838642, 0, 0.544683, 0, 1, 0, -0.544683, 0, 0.838642, 2.88579, -0.0633421, 3.40738)
+transform = Transform3D(0.838642, 0, 0.544683, 0, 1, 0, -0.544683, 0, 0.838642, 3.24927, 4.3166, 3.40738)
 look_speed = 0.001
 base_speed = 0.8
 jump_velocity = 2.5
@@ -463,18 +474,31 @@ input_right = "walk_right"
 input_forward = "walk_forward"
 input_back = "walk_backward"
 
-[node name="Plant" parent="." instance=ExtResource("16_2w8rd")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 2.7336, 0.577665, 0.199024)
-stats = ExtResource("17_772mo")
-plant_id = "cactus"
+[node name="SpawnArea" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.95567, 0.586045, -0.309246)
+script = ExtResource("18_2qly3")
 
-[node name="Plant3" parent="." instance=ExtResource("16_2w8rd")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 3.05169, 0.577665, -0.0995115)
-stats = ExtResource("18_2qly3")
-plant_id = "mushroom"
+[node name="Spawn1" type="Marker3D" parent="SpawnArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0804188, 0, -0.390961)
 
-[node name="Plant2" parent="." instance=ExtResource("16_2w8rd")]
-transform = Transform3D(0.500421, 0, 0, 0, 0.500421, 0, 0, 0, 0.500421, 2.774, 0.577667, -0.417)
+[node name="Spawn2" type="Marker3D" parent="SpawnArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0804188, 0, 0.00159067)
+
+[node name="Spawn3" type="Marker3D" parent="SpawnArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0804188, 0, 0.427089)
+
+[node name="Spawn4" type="Marker3D" parent="SpawnArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.163893, 0, -0.39343)
+
+[node name="Spawn5" type="Marker3D" parent="SpawnArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.163893, 0, 0.000923693)
+
+[node name="Spawn6" type="Marker3D" parent="SpawnArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.163893, 0, 0.429515)
+
+[node name="SpawnTimer" type="Timer" parent="SpawnArea"]
+wait_time = 5.0
+autostart = true
 
 [connection signal="area_entered" from="LightArea/Area3D" to="LightArea" method="_on_light_entered"]
 [connection signal="area_exited" from="LightArea/Area3D" to="LightArea" method="_on_light_exited"]
@@ -482,3 +506,4 @@ transform = Transform3D(0.500421, 0, 0, 0, 0.500421, 0, 0, 0, 0.500421, 2.774, 0
 [connection signal="area_exited" from="DarknessArea" to="DarknessArea" method="_on_plant_exited"]
 [connection signal="area_entered" from="WaterArea" to="WaterArea" method="_on_plant_entered"]
 [connection signal="area_exited" from="WaterArea" to="WaterArea" method="_on_plant_exited"]
+[connection signal="timeout" from="SpawnArea/SpawnTimer" to="SpawnArea" method="_on_spawn_timer_timeout"]

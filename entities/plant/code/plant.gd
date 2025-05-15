@@ -6,6 +6,7 @@ signal plant_grown
 
 @export_category("Setup")
 @export var stats: PlantStats
+@export var stats_types: Array = ["res://resources/cactus.tres", "res://resources/mushroom.tres", "res://resources/tomato.tres"]
 @export var plant_health: float = 50
 @export var plant_id: String = "tomato" # "cactus", "tomato"
 @export var is_dead: bool = false:
@@ -52,6 +53,15 @@ var should_emit_full_grown_particles: bool = false
 
 
 func _ready() -> void:
+	var pick_idx = randi() % stats_types.size()
+	var picked_res_path = stats_types[pick_idx]
+	
+	stats = load(picked_res_path)
+	
+	var file_name = picked_res_path.get_file()
+	var base_name = file_name.get_basename()
+	plant_id = base_name
+	
 	plant_models = {
 		"tomato": tomato,
 		"cactus": cactus,

@@ -14,7 +14,7 @@ config/name="Dungeon Gardener"
 config/tags=PackedStringArray("gamejam")
 run/main_scene="uid://bmm722h35elbx"
 config/features=PackedStringArray("4.5", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://5ha0cbmnj517"
 
 [autoload]
 
@@ -87,5 +87,6 @@ pause={
 
 [rendering]
 
+textures/vram_compression/import_etc2_astc=true
 global_illumination/voxel_gi/quality=1
 anti_aliasing/quality/msaa_3d=2

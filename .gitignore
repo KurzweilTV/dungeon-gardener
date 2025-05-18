@@ -16,5 +16,5 @@ data_*/
 mono_crash.*.json
 
 # Personal ignores
-.exports/
+exports/
 .DS_Store
